@@ -6,7 +6,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>  说明 |    white.</title>
+  <title>  线程池 |    white.</title>
   <meta name="description" content="A minimalist theme for hexo.">
   <!-- 标签页图标 -->
   
@@ -102,8 +102,8 @@
 <article class="post-inner">
   <div class="post-content-outer">
     <div class="post-intro">
-      <div class="post-title animate__animated  animate__fadeInUp">说明</div>
-      <div class="meta-intro animate__animated  animate__fadeInUp">Mar 19 2023</div>
+      <div class="post-title animate__animated  animate__fadeInUp">线程池</div>
+      <div class="meta-intro animate__animated  animate__fadeInUp">Mar 23 2023</div>
       
     </div>
     <div class="post-content-inner">
@@ -113,9 +113,8 @@
       <div class="post-content-main animate__animated  animate__fadeInUp">
         <!-- top型目录 -->
         
-        <h3 id="Github地址"><a href="#Github地址" class="headerlink" title="Github地址"></a>Github地址</h3><p><a target="_blank" rel="noopener" href="https://github.com/CHENZhoujing">https://github.com/CHENZhoujing</a></p>
-<h3 id="联系方式"><a href="#联系方式" class="headerlink" title="联系方式"></a>联系方式</h3><p>cj-jing—</p>
-<h2 id="2023-03-20"><a href="#2023-03-20" class="headerlink" title="2023-03-20"></a>2023-03-20</h2><p>这是我的个人网站，目前正在找工作阶段，国内的秋招实在太内卷了，目前就用来写写面经吧。<br>面经的参考网址：<a target="_blank" rel="noopener" href="https://blog.csdn.net/v123411739/article/details/115364158%EF%BC%8C%E6%88%91%E9%87%8D%E6%96%B0%E5%86%99%E4%B8%80%E9%81%8D%E6%9D%A5%E5%8A%A0%E6%B7%B1%E8%AE%B0%E5%BF%86%E3%80%82">https://blog.csdn.net/v123411739/article/details/115364158，我重新写一遍来加深记忆。</a></p>
+        <h2 id="为什么要使用线程池？"><a href="#为什么要使用线程池？" class="headerlink" title="为什么要使用线程池？"></a>为什么要使用线程池？</h2><p>1.降低资源消耗。通过重复利用已经创建的线程，降低线程创建和销毁造成的消耗。<br>2.提高响应速度。任务不需要等待线程创建就可以立刻执行。<br>3.线程池可以统一分配，调优，监控线程。</p>
+<h2 id="线程池的核心参数"><a href="#线程池的核心参数" class="headerlink" title="线程池的核心参数"></a>线程池的核心参数</h2><p>*threadFactory 线程工厂<br>*corePollSize 核心线程数<br>*maximumPoolSize 最大线程数<br>*workQueue 队列<br>*handler 拒绝策略<br>*keepAliveTime 保持存活时间<br>    如果线程池当前线程数超过</p>
 
         <!-- 分类文章 -->
         
@@ -123,7 +122,7 @@
       <div class="post-content-inner-space">
         
           <div class="space-toc-main animate__animated  animate__fadeInUp">
-            <ol class="space-toc"><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#2023-03-20"><span class="space-toc-text">2023-03-20</span></a></li></ol>
+            <ol class="space-toc"><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E4%BD%BF%E7%94%A8%E7%BA%BF%E7%A8%8B%E6%B1%A0%EF%BC%9F"><span class="space-toc-text">为什么要使用线程池？</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E7%BA%BF%E7%A8%8B%E6%B1%A0%E7%9A%84%E6%A0%B8%E5%BF%83%E5%8F%82%E6%95%B0"><span class="space-toc-text">线程池的核心参数</span></a></li></ol>
            </div>
         
       </div>
