@@ -123,59 +123,15 @@
 物理层
 </code></pre>
 <p>应用层：提供程序间通信，提供为应用软件而设的接口<br>    FTP文件传输协议,<br>    SMTP是建立在FTP文件传输服务上的一种邮件服务<br>    POP3 即邮局协议版本3，是一种用来从邮件服务器上读取邮件的协议<br>    HTTP<br>    DNS	 将域名和IP地址相互映射的一个分布式数据库，能够使人更方便地访问互联网<br>表示层：把数据转换为能与接收者的系统格式兼容并适合传输的格式，数据加密和解密<br>会话层：管理主机间的会话进程，包括建立、管理以及终止进程间的会话<br>传输层：负责主机中两个进程之间的通信，把传输表头加至数据以形成数据段<br>    TCP：<br>    UDP：<br>网络层：提供寻址和路由选择的功能，决定数据的路径选择和转寄，具有一定的拥塞控制能力，将传输层传下来的报文段封装成数据包<br>    路由器<br>    ICMP：互联网控制消息协议<br>    ARP：地址解析协议，是用来将IP地址解析为MAC地址的协议<br>    IP：<br>数据链路层：将网络层传输下来的IP数据报组装成帧<br>    网桥，交换机<br>    通过各种控制下协议，把物理层封装成无差错能可靠传输数据帧的数据链路<br>物理层：将数据转换为可通过物理介质传送的电子信号<br>    中继器，集线器</p>
-<p>为什么分七层：支持异构网络的互联互通。<br>￼￼</p>
-<h2 id="五层网络体系结构-和-TCP-x2F-IP4层体系"><a href="#五层网络体系结构-和-TCP-x2F-IP4层体系" class="headerlink" title="五层网络体系结构 和 TCP&#x2F;IP4层体系"></a>五层网络体系结构 和 TCP&#x2F;IP4层体系</h2><p>￼￼</p>
-<p>加密是在哪一层？<br>获取主机IP地址是在哪一层？<br>TCP报文头部包含那些信息？</p>
-<p>TCP 和 UDP 的区别和使用场景？<br>TCP是一种可靠的、面向连接的、有序的协议，适用于需要确保数据完整性和可靠性的场景，如文件传输、邮件发送等。而UDP是一种不可靠的、非连接性的、无序的协议，适用于实时传输、流媒体、游戏等场景，因为它具有高效、快速的特点。<br>TCP和UDP对消息大小的限制不同。TCP将数据分割成固定大小的数据块（通常为MTU大小），然后再发送，而UDP则没有这样的限制，可以发送任意大小的数据。<br>RUDP我们可以添加一些可靠性保证机制来提高数据的可靠性，如序列号，应答机制，超时重传等等。<br>￼</p>
-<p>TCP协议的特点</p>
-<ul>
-<li>面向连接面向连接，是指发送数据之前必须在两端建立连接。建立连接的方法是“三次握手”，这样能建立可靠的连接。建立连接，是为数据的可靠传输打下了基础。</li>
-<li>仅支持单播传输<br>每条TCP传输连接只能有两个端点，只能进行点对点的数据传输，不支持多播和广播传输方式。</li>
-<li>面向字节流<br>TCP不像UDP一样那样一个个报文独立地传输，而是在不保留报文边界的情况下以字节流方式进行传输。</li>
-<li>可靠传输对于可靠传输，判断丢包，误码靠的是TCP的段编号以及确认号。TCP为了保证报文传输的可靠，就给每个包一个序号，同时序号也保证了传送到接收端实体的包的按序接收。然后接收端实体对已成功收到的字节发回一个相应的确认(ACK)；如果发送端实体在合理的往返时延(RTT)内未收到确认，那么对应的数据（假设丢失了）将会被重传。</li>
-<li>提供拥塞控制<br>当网络出现拥塞的时候，TCP能够减小向网络注入数据的速率和数量，缓解拥塞</li>
-<li>TCP提供全双工通信<br>TCP允许通信双方的应用程序在任何时候都能发送数据，因为TCP连接的两端都设有缓存，用来临时存放双向通信的数据。当然，TCP可以立即发送一个数据段，也可以缓存一段时间以便一次发送更多的数据段（最大的数据段大小取决于MSS）</li>
-</ul>
-<p>三次握手<br>在连接尚未建立前，服务端处于LISTEN状态，客户端处于CLOSED状态。下面开始建立连接：</p>
-<ol>
-<li>客户端发送一个SYN报文段，并且指明需要连接的服务端端口号，给定初始序号为x。客户端进入SYN_SENT状态；</li>
-<li>服务端返回SYN + ACK，以及服务端的初始序号y，同时确认号为x + 1。即SYN标志消耗了一个序号，同时服务端期待下一个数据段为x + 1。服务端进入SYN_RCVD状态；</li>
-<li>客户端再发送ACK，以及确认号y + 1，客户端进入ESTABLISHED状态；当服务器端收到这个包的时候，也进入了ESTABLISHED状态。<br>SYN和FIN数据段都会消耗一个序号，因为只有这样才能确认另一方接收到了报文段。客户端称为主动开放，服务端称为被动开放。<br>￼</li>
-</ol>
-<p>四次挥手<br>因为TCP连接是全双工的，因此双向数据流需要分别被关闭，需要发送四个报文段<br>在连接建立后，服务区端和客户端都处理ESTABLISHED的状态。下面开始终止连接：</p>
-<ol>
-<li>客户端发出一个FIN标志位打开的报文段，并且此报文段的序号为M，表示客户端数据发送完毕，但仍旧可以接收数据。发送后客户端进入FIN_WAIT_1状态；</li>
-<li>服务器端进行确认，发送一个ACK打开的报文段，确认号为M+1，表示服务端已经接收了客户端的关闭请求，但还没有关闭服务器端到客户端的连接。发送后服务器端进入CLOSE_WAIT状态。客户端接收到此确认报文段后进入FIN_WAIT2状态，等待服务器的关闭请求的报文段；</li>
-<li>服务器准备好关闭它到客户端的连接后，它向客户端发送一个FIN标志位打开的报文段，并且此报文段序号为N。然后服务器端进入LAST_ACK状态，等待客户端的最终确认报文；</li>
-<li>客户端收到来自服务器的关闭FIN报文后，发送一个确认报文段，确认号为N+1。发送后客户端进入到TIME_WAIT状态，等待可能需要的重传ACK包。服务器端在接收到这个确认报文段后，进入CLOSED状态。客户端在等待2MSL（2 Maximum Segment Lifetime）之后，没有收到服务器端的ACK请求就会关闭自己的连接，也进入CLOSED状态。<br>￼</li>
-</ol>
-<p>说一下HTTP和HTTPS的区别<br>HTTP是明文传输，端口号80，HTTPS则会有加密，需要到ca申请证书，端口号443。</p>
-<p>常见的HTTP协议请求头有哪些？<br>HTTP协议的request分为三部分：请求行，请求头，请求体。请求头按照key-value形式像服务器发送数据。<br>常见请求头有：<br>    accept：请求的数据的类型，如txt&#x2F;html<br>    accept-language：请求数据类型的语言，如CN<br>    accept-encoding：压缩的格式，如Ziping<br>    cookies</p>
-<p>HTTP协议的请求方式有哪些？<br>HTTP协议的请求方式共有9种<br>方法 		描述														是否包含主体<br>GET 		从服务器获取一份文档    									否<br>HEAD    		只从服务器获取文档的首部    								否<br>POST    		向服务器发送带要处理的数据    								是<br>PUT    		将请求的主体部分存储在服务器上   							是<br>TRACE   		对可能经过代理服务器传送到服务器上去的报文进行追踪    		否<br>OPTIONS    	决定可以在服务器上执行哪些方法   							否<br>DELETE    	从服务器上删除一份文档									否</p>
-<p>HTTP 状态码分类<br>信息响应(100–199)，成功响应(200–299)，重定向(300–399)，客户端错误(400–499)和服务器错误 (500–599)：</p>
-<ul>
-<li><pre><code>    200 - 请求成功
-</code></pre>
-</li>
-<li><pre><code>    301 - 资源（网页等）被永久转移到其它URL
-</code></pre>
-</li>
-<li><pre><code>    404 - 请求的资源（网页等）不存在
-</code></pre>
-</li>
-<li><pre><code>    500 - 内部服务器错误
-</code></pre>
-</li>
-</ul>
-<p>从输入 URL 到页面展示到底发生了什么？<br>1、输入地址<br>2、浏览器查找域名的 IP 地址<br>3、浏览器向 web 服务器发送一个 HTTP 请求<br>4、服务器的永久重定向响应<br>6、服务器处理请求<br>7、服务器返回一个 HTTP 响应<br>8、浏览器显示 HTML<br>9、浏览器发送请求获取嵌入在 HTML 中的资源（如图片、音频、视频、CSS、JS等等）<br><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/133906695">https://zhuanlan.zhihu.com/p/133906695</a></p>
-
+<p>为什么分七层：支持异构网络的互联互通。</p>
+<h2 id="HTTP-和-HTTPS-的区别"><a href="#HTTP-和-HTTPS-的区别" class="headerlink" title="HTTP 和 HTTPS 的区别"></a>HTTP 和 HTTPS 的区别</h2><h2 id="具体讲讲HTTPS的过程-证书"><a href="#具体讲讲HTTPS的过程-证书" class="headerlink" title="具体讲讲HTTPS的过程 证书"></a>具体讲讲HTTPS的过程 证书</h2>
         <!-- 分类文章 -->
         
       </div>
       <div class="post-content-inner-space">
         
           <div class="space-toc-main animate__animated  animate__fadeInUp">
-            <ol class="space-toc"><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E4%B8%83%E5%B1%82%E7%BD%91%E7%BB%9C%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84"><span class="space-toc-text">七层网络体系结构</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E4%BA%94%E5%B1%82%E7%BD%91%E7%BB%9C%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84-%E5%92%8C-TCP-x2F-IP4%E5%B1%82%E4%BD%93%E7%B3%BB"><span class="space-toc-text">五层网络体系结构 和 TCP&#x2F;IP4层体系</span></a></li></ol>
+            <ol class="space-toc"><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E4%B8%83%E5%B1%82%E7%BD%91%E7%BB%9C%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84"><span class="space-toc-text">七层网络体系结构</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#HTTP-%E5%92%8C-HTTPS-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="space-toc-text">HTTP 和 HTTPS 的区别</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E5%85%B7%E4%BD%93%E8%AE%B2%E8%AE%B2HTTPS%E7%9A%84%E8%BF%87%E7%A8%8B-%E8%AF%81%E4%B9%A6"><span class="space-toc-text">具体讲讲HTTPS的过程 证书</span></a></li></ol>
            </div>
         
       </div>

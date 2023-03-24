@@ -1,0 +1,248 @@
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>  Mysql |    white.</title>
+  <meta name="description" content="A minimalist theme for hexo.">
+  <!-- 标签页图标 -->
+  
+
+  <!-- 图标库 -->
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@2.2.0/fonts/remixicon.css" rel="stylesheet">
+  <!-- 动画库 -->
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fushaolei/cdn-white@1.0/css/animate.css"/>
+  
+  <!-- css文件 -->
+  
+<link rel="stylesheet" href="/css/white.css">
+
+  <!-- 代码高亮 -->
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+
+<div class="menu-outer">
+    <div class="menu-inner">
+      <div class="menu-site-name  animate__animated  animate__fadeInUp">
+        <a href="/">
+          white.
+        </a>
+        
+      </div>
+      <div class="menu-group">
+        <ul class="menu-ul">
+        
+          <a href="/" class="nav-link">
+            <li class="menu-li  animate__animated  animate__fadeInUp">
+              HOME
+            </li>
+          </a>
+        
+          <a href="/archives" class="nav-link">
+            <li class="menu-li  animate__animated  animate__fadeInUp">
+              BLOG
+            </li>
+          </a>
+        
+        
+        
+          <li class="menu-li animate__animated  animate__fadeInUp" id="mobile-menu">
+            <i class="ri-menu-line"></i>
+          </li>
+        
+        </ul>
+
+      </div>
+
+    </div>
+</div>
+<div id="mobile-main" class="animate__animated  animate__fadeIn">
+  <div class="mobile-menu-inner">
+    <div class="mobile-menu-site-name animate__animated  animate__fadeInUp">
+      <a href="/">
+        white.
+      </a>
+    </div>
+    <div class="mobile-menu-group" id="mobile-close">
+      <i class="ri-close-line"></i>
+    </div>
+
+  </div>
+
+  <div class="mobile-menu-div">
+  
+    <a href="/" class="mobile-nav-link">
+      <div class="mobile-menu-child animate__animated  animate__fadeInUp">
+        <span>HOME</span>
+      </div>
+    </a>
+  
+    <a href="/archives" class="mobile-nav-link">
+      <div class="mobile-menu-child animate__animated  animate__fadeInUp">
+        <span>BLOG</span>
+      </div>
+    </a>
+  
+  
+  </div>
+
+
+</div>
+
+<div class="body-outer">
+  <div class="body-inner">
+    
+<article class="post-inner">
+  <div class="post-content-outer">
+    <div class="post-intro">
+      <div class="post-title animate__animated  animate__fadeInUp">Mysql</div>
+      <div class="meta-intro animate__animated  animate__fadeInUp">Mar 24 2023</div>
+      
+    </div>
+    <div class="post-content-inner">
+      <div class="post-content-inner-space">
+
+      </div>
+      <div class="post-content-main animate__animated  animate__fadeInUp">
+        <!-- top型目录 -->
+        
+        <h2 id="常见的索引类型有哪些？"><a href="#常见的索引类型有哪些？" class="headerlink" title="常见的索引类型有哪些？"></a>常见的索引类型有哪些？</h2><p>hash，B树，B+树</p>
+<ul>
+<li>hash的底层就是hash表，通过hash函数计算key的hashcode，根据hashcode找到对应的地址，根据地址获取值。</li>
+<li>B树是一种多路搜索树，n路搜索树代表每个节点最多有n个字节点。每个节点存储key，指向下一层节点的指针，指向key数据记录的地址。查找时，从根节点向下查找，直到找到对应的key。</li>
+<li>B+树是B树的变种，区别在于B+树的的非叶节点只存储key+指向下一层节点的指针。此外B+树的叶子节点之间通过指针连接，构成一个有序链表。<br>
+        <span class="lazyload-img-span">
+        <img   
+           data-src="https://i.stack.imgur.com/SLW1g.png" >
+        </sapn>
+      </li>
+</ul>
+<h2 id="为什么Mysql要用B-数来存储索引？"><a href="#为什么Mysql要用B-数来存储索引？" class="headerlink" title="为什么Mysql要用B+数来存储索引？"></a>为什么Mysql要用B+数来存储索引？</h2><ul>
+<li>链表：需要遍历，时间复杂度O(n)。</li>
+<li>hash：如果只查询单个值，hash的速度很快。但是hash在范围查找时速度就很慢，且不支持索引的排序，也不支持联合索引的最左匹配规则。</li>
+<li>二叉搜索树，平衡二叉树，红黑树的层数过多，磁盘IO对查询速度影响极大。<ul>
+<li>二叉搜索树：可能退化为链表。</li>
+<li>平衡二叉树AVL（节点的左子树和右子树的高度差至多等于1）：最坏的查找时间复杂度也为 O(logn)，但是在插入、删除很频繁的场景中，平衡树需要频繁着进行调整，这会使平衡树的性能大打折扣。</li>
+<li>红黑树是一个不大严格的平衡树，减少因为插入和删除导致的调整的次数，是一个折中的方案。</li>
+</ul>
+</li>
+<li>B数的非叶子节点存放了记录数据的地址，会导致存储的节点更少，树的层数变高。同时如要访问下一页，需要退回到父节点。跨层访问会带来额外的磁盘IO。</li>
+</ul>
+<h2 id="介绍一下数据库范式"><a href="#介绍一下数据库范式" class="headerlink" title="介绍一下数据库范式"></a>介绍一下数据库范式</h2><p>避免插入删除更新操作异常，避免存储不需要的冗余信息。</p>
+<ul>
+<li>第一范式：无重复的列<br>数据库表的每一列都是不可再分的基本数据项，同一列中不能有多个值。</li>
+<li>第二范式：属性完全依赖于主键<br>数据表中的每一行都可以被唯一区分。有primary-key，一般来说就是自增id。</li>
+<li>第三范式：消除传递依赖，属性不依赖于其他非主属性。</li>
+<li>BCNF范式：</li>
+</ul>
+<h2 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h2><h2 id="Mysql的事务隔离级别有哪些？分别用于解决什么问题？"><a href="#Mysql的事务隔离级别有哪些？分别用于解决什么问题？" class="headerlink" title="Mysql的事务隔离级别有哪些？分别用于解决什么问题？"></a>Mysql的事务隔离级别有哪些？分别用于解决什么问题？</h2><ul>
+<li>读未提交（Read Uncommitted）</li>
+<li>读已提交（Read Committed）</li>
+<li>可重复读（Repeatable Read）</li>
+<li>串行化（Serializable）</li>
+</ul>
+<p>
+        <span class="lazyload-img-span">
+        <img   
+           data-src="https://static001.geekbang.org/infoq/4e/4e63accc4e538e526d70a5f822a8f6ae.png" >
+        </sapn>
+      </p>
+<p>主要解决脏读，不可重复读，幻读问题。</p>
+<ul>
+<li>脏读：一个事务读渠道另一个事务还没有提交的数据。 –事务的原子性。</li>
+<li>不可重复读：一个事务多次读取同一个数据，结果不一致。 –update问题。<ul>
+<li>解决：使用行级锁，锁定该行，事务A多次读取操作完成后才释放该锁，这个时候才允许其他事务更改刚才的数据。</li>
+</ul>
+</li>
+<li>幻读：一个事务多次读取，数据总量不一致。 –insert delete问题。<ul>
+<li>使用表级锁，锁定整张表，事务A多次读取数据总量之后才释放该锁，这个时候才允许其他事务新增数据。</li>
+</ul>
+</li>
+</ul>
+<p>为了保证并发事务的安全，一个比较容易想到的办法就是加读写锁，实现：读读不冲突、读写冲突、写读冲突，写写冲突。但比起加锁，还有更高效的方式来解决，Mysql使用MVCC来解决这些问题。</p>
+<h2 id="MVCC"><a href="#MVCC" class="headerlink" title="MVCC"></a>MVCC</h2><p>通过 MVCC，我们可以做到读写之间不冲突，我们读的时候只需要将当前记录拷贝一份到内存中（ReadView），之后该事务的查询就只跟 ReadView 打交道，不影响其他事务对该记录的写操作。  </p>
+<p>为了实现多版本并发控制 (MVCC)，InnoDB会向每行记录中增加三个字段：</p>
+<ul>
+<li>行ID DB_ROW_ID 6字节</li>
+<li>事务ID DB_TRX_ID 6字节</li>
+<li>回滚指针 DB_ROLL_PTR 7字节</li>
+</ul>
+<h2 id="乐观锁和悲观锁以及使用场景"><a href="#乐观锁和悲观锁以及使用场景" class="headerlink" title="乐观锁和悲观锁以及使用场景"></a>乐观锁和悲观锁以及使用场景</h2><h2 id="死锁"><a href="#死锁" class="headerlink" title="死锁"></a>死锁</h2><h2 id="说说Mysql的主从复制"><a href="#说说Mysql的主从复制" class="headerlink" title="说说Mysql的主从复制"></a>说说Mysql的主从复制</h2><h2 id="Source"><a href="#Source" class="headerlink" title="Source"></a>Source</h2><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/72505589">https://zhuanlan.zhihu.com/p/72505589</a><br><a target="_blank" rel="noopener" href="https://joonwhee.blog.csdn.net/article/details/106893197">https://joonwhee.blog.csdn.net/article/details/106893197</a><br><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/25004505/b-tree-or-b-tree">https://stackoverflow.com/questions/25004505/b-tree-or-b-tree</a><br><a target="_blank" rel="noopener" href="https://leetcode.cn/circle/discuss/uRUsKF/">https://leetcode.cn/circle/discuss/uRUsKF/</a><br><a target="_blank" rel="noopener" href="https://xie.infoq.cn/article/7eafabc80c1ab0a8ccc7f1151">https://xie.infoq.cn/article/7eafabc80c1ab0a8ccc7f1151</a></p>
+
+        <!-- 分类文章 -->
+        
+      </div>
+      <div class="post-content-inner-space">
+        
+          <div class="space-toc-main animate__animated  animate__fadeInUp">
+            <ol class="space-toc"><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E5%B8%B8%E8%A7%81%E7%9A%84%E7%B4%A2%E5%BC%95%E7%B1%BB%E5%9E%8B%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F"><span class="space-toc-text">常见的索引类型有哪些？</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88Mysql%E8%A6%81%E7%94%A8B-%E6%95%B0%E6%9D%A5%E5%AD%98%E5%82%A8%E7%B4%A2%E5%BC%95%EF%BC%9F"><span class="space-toc-text">为什么Mysql要用B+数来存储索引？</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E4%BB%8B%E7%BB%8D%E4%B8%80%E4%B8%8B%E6%95%B0%E6%8D%AE%E5%BA%93%E8%8C%83%E5%BC%8F"><span class="space-toc-text">介绍一下数据库范式</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E4%BA%8B%E5%8A%A1"><span class="space-toc-text">事务</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#Mysql%E7%9A%84%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F%E5%88%86%E5%88%AB%E7%94%A8%E4%BA%8E%E8%A7%A3%E5%86%B3%E4%BB%80%E4%B9%88%E9%97%AE%E9%A2%98%EF%BC%9F"><span class="space-toc-text">Mysql的事务隔离级别有哪些？分别用于解决什么问题？</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#MVCC"><span class="space-toc-text">MVCC</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E4%B9%90%E8%A7%82%E9%94%81%E5%92%8C%E6%82%B2%E8%A7%82%E9%94%81%E4%BB%A5%E5%8F%8A%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="space-toc-text">乐观锁和悲观锁以及使用场景</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E6%AD%BB%E9%94%81"><span class="space-toc-text">死锁</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E8%AF%B4%E8%AF%B4Mysql%E7%9A%84%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6"><span class="space-toc-text">说说Mysql的主从复制</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#Source"><span class="space-toc-text">Source</span></a></li></ol>
+           </div>
+        
+      </div>
+   </div>
+    <!-- 评论 -->
+    
+    <div class="bottom-comments-outer">
+      <div class="bottom-comments-inner">
+        <!-- valine -->
+        
+        <!-- Gitalk -->
+        
+        <!-- livere -->
+        
+        </div>
+      </div>
+    
+  </div>
+</article>
+  </div>
+</div>
+
+
+
+<!-- 如果是home模式的话，不在首页就显示footer，如果不是home模式的话 所有都显示footer -->
+
+  <div class="footer-outer animate__animated  animate__fadeInUp">
+    <div class="footer-inner">
+    <div class="footer-text">
+    <p>Power by <a target="_blank" rel="noopener" href="http://hexo.io/">Hexo</a> Theme by <a target="_blank" rel="noopener" href="https://github.com/FuShaoLei/hexo-theme-white">White</a></p>
+
+    </div>
+    <div class="footer-contact">
+    <ul class="footer-ul">
+        
+        <li class="footer-li">
+            <a href="https://github.com/CHENZhoujing" target="_blank">
+                <i class="ri-github-line"></i>
+            </a>
+        </li>
+        
+        <li class="footer-li">
+            <a href="mailto:zhoujingchen1@gmail.com" target="_blank">
+                <i class="ri-mail-line"></i>
+            </a>
+        </li>
+        
+    </ul>
+    </div>
+    </div>
+</div>
+
+
+
+
+
+
+<script src="/js/white.js"></script>
+
+
+
+</body>
+</html>
