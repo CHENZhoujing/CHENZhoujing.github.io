@@ -6,7 +6,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>  Synchronized |    white.</title>
+  <title>  设计模式 |    white.</title>
   <meta name="description" content="A minimalist theme for hexo.">
   <!-- 标签页图标 -->
   
@@ -102,8 +102,8 @@
 <article class="post-inner">
   <div class="post-content-outer">
     <div class="post-intro">
-      <div class="post-title animate__animated  animate__fadeInUp">Synchronized</div>
-      <div class="meta-intro animate__animated  animate__fadeInUp">Mar 20 2023</div>
+      <div class="post-title animate__animated  animate__fadeInUp">设计模式</div>
+      <div class="meta-intro animate__animated  animate__fadeInUp">Mar 21 2023</div>
       
     </div>
     <div class="post-content-inner">
@@ -113,11 +113,56 @@
       <div class="post-content-main animate__animated  animate__fadeInUp">
         <!-- top型目录 -->
         
-        
+        <h2 id="单例模式"><a href="#单例模式" class="headerlink" title="单例模式"></a>单例模式</h2><p>用于确保一个类只有一个实例，并提供全局访问点以便于使用该实例。<br>在饿汉式单例模式中，单例实例在类加载时就被创建，因此也被称为静态单例模式。  </p>
+<pre><code>public class Singleton &#123;
+    private static Singleton instance = new Singleton();
+    private Singleton() &#123;&#125;
+
+    public static Singleton getInstance() &#123;
+        return instance;
+    &#125;
+&#125;
+</code></pre>
+<p>在懒汉式单例模式中，单例实例在第一次使用时被创建。</p>
+<pre><code>public class Singleton &#123;
+    private static Singleton instance;
+    private Singleton() &#123;&#125;
+
+    public static Singleton getInstance() &#123;
+        if (instance == null) &#123;
+            instance = new Singleton();
+        &#125;
+        return instance;
+    &#125;
+&#125;
+</code></pre>
+<p>双重检查锁定是一种常用的线程安全的单例模式实现方式。该方式首先检查是否已经存在单例对象，如果不存在，则进行加锁创建对象，再进行一次检查是否已经存在单例对象，如果还不存在，就创建一个新的对象。该方式的优点是既能保证线程安全，又能避免每次获取对象都进行加锁，提高了效率。</p>
+<pre><code>public class Singleton &#123;
+    private static volatile Singleton instance;
+    private Singleton() &#123;&#125;
+
+    public static Singleton getInstance() &#123;
+        if (instance == null) &#123;
+            synchronized (Singleton.class) &#123;
+                if (instance == null) &#123;
+                    instance = new Singleton();
+                &#125;
+            &#125;
+        &#125;
+        return instance;
+    &#125;
+&#125;
+</code></pre>
+<h2 id="工厂模式"><a href="#工厂模式" class="headerlink" title="工厂模式"></a>工厂模式</h2><p>工厂模式将对象的创建交给专门的工厂类，客户端不再直接创建对象，而是通过调用工厂类的方法来创建对象。</p>
+
         <!-- 分类文章 -->
         
       </div>
       <div class="post-content-inner-space">
+        
+          <div class="space-toc-main animate__animated  animate__fadeInUp">
+            <ol class="space-toc"><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F"><span class="space-toc-text">单例模式</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F"><span class="space-toc-text">工厂模式</span></a></li></ol>
+           </div>
         
       </div>
    </div>
