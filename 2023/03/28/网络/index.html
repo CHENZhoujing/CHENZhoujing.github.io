@@ -1,0 +1,278 @@
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>  网络 |    white.</title>
+  <meta name="description" content="A minimalist theme for hexo.">
+  <!-- 标签页图标 -->
+  
+
+  <!-- 图标库 -->
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@2.2.0/fonts/remixicon.css" rel="stylesheet">
+  <!-- 动画库 -->
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fushaolei/cdn-white@1.0/css/animate.css"/>
+  
+  <!-- css文件 -->
+  
+<link rel="stylesheet" href="/css/white.css">
+
+  <!-- 代码高亮 -->
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+
+<div class="menu-outer">
+    <div class="menu-inner">
+      <div class="menu-site-name  animate__animated  animate__fadeInUp">
+        <a href="/">
+          white.
+        </a>
+        
+      </div>
+      <div class="menu-group">
+        <ul class="menu-ul">
+        
+          <a href="/" class="nav-link">
+            <li class="menu-li  animate__animated  animate__fadeInUp">
+              HOME
+            </li>
+          </a>
+        
+          <a href="/archives" class="nav-link">
+            <li class="menu-li  animate__animated  animate__fadeInUp">
+              BLOG
+            </li>
+          </a>
+        
+        
+        
+          <li class="menu-li animate__animated  animate__fadeInUp" id="mobile-menu">
+            <i class="ri-menu-line"></i>
+          </li>
+        
+        </ul>
+
+      </div>
+
+    </div>
+</div>
+<div id="mobile-main" class="animate__animated  animate__fadeIn">
+  <div class="mobile-menu-inner">
+    <div class="mobile-menu-site-name animate__animated  animate__fadeInUp">
+      <a href="/">
+        white.
+      </a>
+    </div>
+    <div class="mobile-menu-group" id="mobile-close">
+      <i class="ri-close-line"></i>
+    </div>
+
+  </div>
+
+  <div class="mobile-menu-div">
+  
+    <a href="/" class="mobile-nav-link">
+      <div class="mobile-menu-child animate__animated  animate__fadeInUp">
+        <span>HOME</span>
+      </div>
+    </a>
+  
+    <a href="/archives" class="mobile-nav-link">
+      <div class="mobile-menu-child animate__animated  animate__fadeInUp">
+        <span>BLOG</span>
+      </div>
+    </a>
+  
+  
+  </div>
+
+
+</div>
+
+<div class="body-outer">
+  <div class="body-inner">
+    
+<article class="post-inner">
+  <div class="post-content-outer">
+    <div class="post-intro">
+      <div class="post-title animate__animated  animate__fadeInUp">网络</div>
+      <div class="meta-intro animate__animated  animate__fadeInUp">Mar 28 2023</div>
+      
+    </div>
+    <div class="post-content-inner">
+      <div class="post-content-inner-space">
+
+      </div>
+      <div class="post-content-main animate__animated  animate__fadeInUp">
+        <!-- top型目录 -->
+        
+        <h2 id="七层网络体系结构"><a href="#七层网络体系结构" class="headerlink" title="七层网络体系结构"></a>七层网络体系结构</h2><ol>
+<li>应用层：提供程序间通信，提供为应用软件而设的接口<ul>
+<li>FTP文件传输协议, </li>
+<li>SMTP是建立在FTP文件传输服务上的一种邮件服务</li>
+<li>POP3 即邮局协议版本3，是一种用来从邮件服务器上读取邮件的协议</li>
+<li>HTTP</li>
+<li>DNS 将域名和IP地址相互映射的一个分布式数据库，能够使人更方便地访问互联网</li>
+</ul>
+</li>
+<li>表示层：把数据转换为能与接收者的系统格式兼容并适合传输的格式，数据加密和解密</li>
+<li>会话层：管理主机间的会话进程，包括建立、管理以及终止进程间的会话</li>
+<li>传输层：负责主机中两个进程之间的通信，把传输表头加至数据以形成数据段<ul>
+<li>TCP：</li>
+<li>UDP：</li>
+</ul>
+</li>
+<li>网络层：提供寻址和路由选择的功能，决定数据的路径选择和转寄，具有一定的拥塞控制能力，将传输层传下来的报文段封装成数据包<ul>
+<li>路由器</li>
+<li>ICMP：互联网控制消息协议</li>
+<li>ARP：地址解析协议，是用来将IP地址解析为MAC地址的协议</li>
+<li>IP：</li>
+</ul>
+</li>
+<li>数据链路层：将网络层传输下来的IP数据报组装成帧<ul>
+<li>网桥，交换机</li>
+<li>通过各种控制下协议，把物理层封装成无差错能可靠传输数据帧的数据链路</li>
+<li>汉明码</li>
+</ul>
+</li>
+<li>物理层：将数据转换为可通过物理介质传送的电子信号<ul>
+<li>中继器，集线器</li>
+<li>曼切斯特编码</li>
+<li>4B&#x2F;5B</li>
+</ul>
+</li>
+</ol>
+<p>
+        <span class="lazyload-img-span">
+        <img   
+           data-src="https://pic3.zhimg.com/80/v2-1ebda43e282ef7b086285563fa32a8c6_1440w.jpg" >
+        </sapn>
+      </p>
+<p>为什么分七层：支持异构网络的互联互通。</p>
+<h2 id="加密是在哪一层？获取主机IP地址是在哪一层？TCP报文头部包含那些信息？"><a href="#加密是在哪一层？获取主机IP地址是在哪一层？TCP报文头部包含那些信息？" class="headerlink" title="加密是在哪一层？获取主机IP地址是在哪一层？TCP报文头部包含那些信息？"></a>加密是在哪一层？获取主机IP地址是在哪一层？TCP报文头部包含那些信息？</h2><ol>
+<li>加密通常是在表示层和应用层完成的。在表示层，可以使用 SSL（Secure Sockets Layer）或 TLS（Transport Layer Security）协议对数据进行加密，以确保数据在传输过程中的安全性。在应用层，许多应用程序（例如 Web 浏览器、电子邮件客户端）也提供加密选项，以保护用户的数据和隐私</li>
+<li>获取主机 IP 地址通常是在网络层（第三层）中完成的。当主机连接到网络时，它会通过 DHCP（Dynamic Host Configuration Protocol）或静态配置等方式获得一个 IP 地址。</li>
+<li><ul>
+<li>源端口和目标端口：指示发送端和接收端的端口号。</li>
+<li>序列号和确认号：用于 TCP 协议的可靠传输机制，保证数据的有序性和可靠性。</li>
+<li>数据偏移量：指示 TCP 报文头的长度。</li>
+<li>控制位：包括 URG（紧急指针）、ACK（确认）、PSH（推送）、RST（重置）、SYN（同步）、FIN（结束）等控制信息。</li>
+<li>窗口大小：指示接收方缓冲区的大小，用于流量控制。</li>
+<li>校验和：用于检验 TCP 报文头和数据的正确性和完整性。</li>
+<li>紧急指针：用于指示紧急数据的位置。</li>
+</ul>
+</li>
+</ol>
+<h2 id="TCP-和-UDP-的区别和使用场景？"><a href="#TCP-和-UDP-的区别和使用场景？" class="headerlink" title="TCP 和 UDP 的区别和使用场景？"></a>TCP 和 UDP 的区别和使用场景？</h2><ul>
+<li>TCP是一种可靠的、面向连接的、有序的协议，适用于需要确保数据完整性和可靠性的场景，如文件传输、邮件发送等。</li>
+<li>而UDP是一种不可靠的、非连接性的、无序的协议，适用于实时传输、流媒体、游戏等场景，因为它具有高效、快速的特点。</li>
+<li>TCP和UDP对消息大小的限制不同。TCP将数据分割成固定大小的数据块（通常为MTU大小），然后再发送，而UDP则没有这样的限制，可以发送任意大小的数据。</li>
+</ul>
+<h2 id="HTTP-和-HTTPS-的区别"><a href="#HTTP-和-HTTPS-的区别" class="headerlink" title="HTTP 和 HTTPS 的区别"></a>HTTP 和 HTTPS 的区别</h2><p>HTTP是明文传输，端口号80，HTTPS则会有加密，需要到ca申请证书，端口号443。</p>
+<h2 id="具体讲讲HTTPS的过程"><a href="#具体讲讲HTTPS的过程" class="headerlink" title="具体讲讲HTTPS的过程"></a>具体讲讲HTTPS的过程</h2><ul>
+<li>客户端发送发送一个加密连接请求给服务器，其中包含客户端支持的TSL&#x2F;SSL版本和支持的加密算法。</li>
+<li>服务器回应一个数字证书，证书中包含了最终选择的算法和TSL版本，以及非对称加密的公钥。</li>
+<li>客户端收到证书之后会对证书进行验证，如果可信，客户端会生成一个协商密钥，用证书中的公钥就行加密，并发送给服务端。</li>
+<li>服务端收到加密后的协商密钥之后，使用私钥进行解密，这样子就得到了协商密钥。并发送一个消息给客户端，通知其已经可以加密对话了。</li>
+</ul>
+<h1 id="HTTP-1-0-1-1-2-0"><a href="#HTTP-1-0-1-1-2-0" class="headerlink" title="HTTP 1.0 1.1 2.0"></a>HTTP 1.0 1.1 2.0</h1><ul>
+<li>HTTP 1.0：每个请求都需要建立一个新的连接，请求完成后立即关闭连接。这</li>
+<li>HTTP 1.1：引入了持久连接（Persistent Connection）的概念，即在一个连接上可以发送多个请求和响应。</li>
+<li>HTTP 2.0：<ul>
+<li>引入了多路复用（Multiplexing）的概念，即在一个连接上可以同时发送多个请求和响应，不再需要按顺序等待响应。这种方式可以进一步提高性能。</li>
+<li>引入了头部压缩（Header Compression）的机制，可以减少重复的头部信息，降低传输数据的大小。</li>
+</ul>
+</li>
+</ul>
+<h2 id="HTTP-状态码分类"><a href="#HTTP-状态码分类" class="headerlink" title="HTTP 状态码分类"></a>HTTP 状态码分类</h2><p>信息响应(100–199)，成功响应(200–299)，重定向(300–399)，客户端错误(400–499)和服务器错误 (500–599)：</p>
+<ul>
+<li>200 - 请求成功</li>
+<li>301 - 资源（网页等）被永久转移到其它URL</li>
+<li>404 - 请求的资源（网页等）不存在</li>
+<li>500 - 内部服务器错误</li>
+</ul>
+<h2 id="Cookies-Sessions区别"><a href="#Cookies-Sessions区别" class="headerlink" title="Cookies Sessions区别"></a>Cookies Sessions区别</h2><ul>
+<li>Cookie保存在客户端，大小为4k，安全性低，session保存在服务端，大小可以很大，安全性高。</li>
+<li>有效期不同，Cookie可设置为长时间保持，比如默认登录功能功能，Session一般有效时间较短，客户端关闭或者Session超时都会失效。有效期不同，Cookie可设置为长时间保持，比如默认登录功能功能，Session一般有效时间较短，客户端关闭或者Session超时都会失效。</li>
+<li>大多数的应用都是用Cookie实现Session跟踪的。第一次创建Session时，服务端会通过在HTTP协议中返回给客户端，在Cookie中记录SessionID，后续请求时传递SessionID给服务，以便后续每次请求时都可分辨你是谁。</li>
+<li>禁用cookie怎么办？拼接SessionId参数。在GET或POST请求中拼接SessionID，GET请求通常通过URL后面拼接参数来实现，POST请求可以放在Body中.</li>
+</ul>
+<h2 id="Source"><a href="#Source" class="headerlink" title="Source"></a>Source</h2><p><a target="_blank" rel="noopener" href="https://www.51cto.com/article/679219.html">https://www.51cto.com/article/679219.html</a><br><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/268196525">https://zhuanlan.zhihu.com/p/268196525</a></p>
+
+        <!-- 分类文章 -->
+        
+      </div>
+      <div class="post-content-inner-space">
+        
+          <div class="space-toc-main animate__animated  animate__fadeInUp">
+            <ol class="space-toc"><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E4%B8%83%E5%B1%82%E7%BD%91%E7%BB%9C%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84"><span class="space-toc-text">七层网络体系结构</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E5%8A%A0%E5%AF%86%E6%98%AF%E5%9C%A8%E5%93%AA%E4%B8%80%E5%B1%82%EF%BC%9F%E8%8E%B7%E5%8F%96%E4%B8%BB%E6%9C%BAIP%E5%9C%B0%E5%9D%80%E6%98%AF%E5%9C%A8%E5%93%AA%E4%B8%80%E5%B1%82%EF%BC%9FTCP%E6%8A%A5%E6%96%87%E5%A4%B4%E9%83%A8%E5%8C%85%E5%90%AB%E9%82%A3%E4%BA%9B%E4%BF%A1%E6%81%AF%EF%BC%9F"><span class="space-toc-text">加密是在哪一层？获取主机IP地址是在哪一层？TCP报文头部包含那些信息？</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#TCP-%E5%92%8C-UDP-%E7%9A%84%E5%8C%BA%E5%88%AB%E5%92%8C%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF%EF%BC%9F"><span class="space-toc-text">TCP 和 UDP 的区别和使用场景？</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#HTTP-%E5%92%8C-HTTPS-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="space-toc-text">HTTP 和 HTTPS 的区别</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E5%85%B7%E4%BD%93%E8%AE%B2%E8%AE%B2HTTPS%E7%9A%84%E8%BF%87%E7%A8%8B"><span class="space-toc-text">具体讲讲HTTPS的过程</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#HTTP-%E7%8A%B6%E6%80%81%E7%A0%81%E5%88%86%E7%B1%BB"><span class="space-toc-text">HTTP 状态码分类</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#Cookies-Sessions%E5%8C%BA%E5%88%AB"><span class="space-toc-text">Cookies Sessions区别</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#Source"><span class="space-toc-text">Source</span></a></li></ol>
+           </div>
+        
+      </div>
+   </div>
+    <!-- 评论 -->
+    
+    <div class="bottom-comments-outer">
+      <div class="bottom-comments-inner">
+        <!-- valine -->
+        
+        <!-- Gitalk -->
+        
+        <!-- livere -->
+        
+        </div>
+      </div>
+    
+  </div>
+</article>
+  </div>
+</div>
+
+
+
+<!-- 如果是home模式的话，不在首页就显示footer，如果不是home模式的话 所有都显示footer -->
+
+  <div class="footer-outer animate__animated  animate__fadeInUp">
+    <div class="footer-inner">
+    <div class="footer-text">
+    <p>Power by <a target="_blank" rel="noopener" href="http://hexo.io/">Hexo</a> Theme by <a target="_blank" rel="noopener" href="https://github.com/FuShaoLei/hexo-theme-white">White</a></p>
+
+    </div>
+    <div class="footer-contact">
+    <ul class="footer-ul">
+        
+        <li class="footer-li">
+            <a href="https://github.com/CHENZhoujing" target="_blank">
+                <i class="ri-github-line"></i>
+            </a>
+        </li>
+        
+        <li class="footer-li">
+            <a href="mailto:zhoujingchen1@gmail.com" target="_blank">
+                <i class="ri-mail-line"></i>
+            </a>
+        </li>
+        
+    </ul>
+    </div>
+    </div>
+</div>
+
+
+
+
+
+
+<script src="/js/white.js"></script>
+
+
+
+</body>
+</html>
