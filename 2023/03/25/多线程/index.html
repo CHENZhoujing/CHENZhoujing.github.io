@@ -118,6 +118,12 @@
 <li>线程是操作系统能够进行运算调度的最小单位，是进程内的一个执行流，一个进程可以有多个线程，它们共享进程的资源，如内存、文件等。线程之间的切换比进程之间的切换更快，开销更小，但线程的安全性和稳定性不如进程高。</li>
 <li>协程是一种用户态的轻量级线程，也称为“微线程”。和线程一样，协程也可以并发执行，但是协程是由应用程序自身控制的，不需要操作系统干预。协程之间的切换比线程之间的切换更快，也更轻量级，因此可以支持更高密度的并发。但是，协程不能利用多核CPU的优势，因为在单个CPU上只能有一个协程运行。</li>
 </ul>
+<h2 id="多线程实现方式"><a href="#多线程实现方式" class="headerlink" title="多线程实现方式"></a>多线程实现方式</h2><ul>
+<li>继承Thread类</li>
+<li>实现Runnable接口（无返回值，实现run方法）</li>
+<li>实现Callable接口（有返回值，实现call方法）</li>
+</ul>
+<h2 id="线程的生命周期？"><a href="#线程的生命周期？" class="headerlink" title="线程的生命周期？"></a>线程的生命周期？</h2><p>线程的生命周期通常可以分为五个状态：新建，就绪，运行，阻塞，死亡。<br>当我们new创建完一个新的线程对象的时候他就处于新建状态，当我们调用他的start方法之后他就处于就绪状态，等待处理器资源，当他被线程调度器选中之后，他就开始执行run方法中的代码，也就进入了运行状态，在运行过程中，他可能会暂停，比如说IO阻塞，wait方法，或者说运行时间片结束等等。线程的状态会在运行和阻塞之间互相切换。当线程任务完全结束之后，他就进入了死亡状态</p>
 <h2 id="如何保证线程安全？"><a href="#如何保证线程安全？" class="headerlink" title="如何保证线程安全？"></a>如何保证线程安全？</h2><ul>
 <li>不可变对象</li>
 <li>Synchronized关键词</li>
@@ -143,6 +149,7 @@
 <li>轻量级锁</li>
 <li>自旋锁</li>
 <li>重量级锁</li>
+<li>偏向锁未启动，创建出来的是普通对象， 如果有一个线程来抢占锁，该锁偏向此线程，这时升级为偏向锁。在偏向锁的基础上又来一个线程抢占锁此时升级为轻量级锁。当一个线程没有抢占到锁，并且自旋了一定时间后还没有抢到锁，就会升级成重量级锁。在偏向锁的基础上如果出现了重度竞争就会直接升级成重量级锁。</li>
 </ul>
 <h2 id="CAS是什么？"><a href="#CAS是什么？" class="headerlink" title="CAS是什么？"></a>CAS是什么？</h2><p>CAS是CompareAndSwap的缩写。CAS有三个操作数：内存地址V，旧的预期值A，即将要更行的目标值B。CAS指令执行时，当且仅当内存地址V的值和预期值A相等时，才会将内存地址修改为B，否则什么都不做。</p>
 <h2 id="在原子操作类中的应用-getAndAddInt"><a href="#在原子操作类中的应用-getAndAddInt" class="headerlink" title="在原子操作类中的应用 getAndAddInt"></a>在原子操作类中的应用 getAndAddInt</h2><pre><code>// offset 内存偏移量
@@ -157,6 +164,7 @@ public final int getAndAddInt(Object o, long offset, int delta) &#123;
 <p>拿到内存位置的最新值v，使用CAS尝试把内存位置的值修改为v+delta，如果失败，则重新获取内存位置最新值v，然后继续尝试修改，直至修改成功。</p>
 <h2 id="CAS实现"><a href="#CAS实现" class="headerlink" title="CAS实现"></a>CAS实现</h2><p>CAS 的实现离不开处理器的支持，核心代码就是一条带 lock 前缀的 cmpxchg 指令，即lock cmpxchg dword ptr [edx], ecx。在其内部，还会有LOCK_IF_MP(mp)会根据mp的值来决定是否为cmpxchg指令添加lock前缀。<br>lock前缀说明（Intel）:<br>1.确保对内存的读-改-写操作原子执行。<br>2.禁止该指令与之前和之后的读和写指令重排序。<br>3.把写缓冲区中的所有数据刷新到内存中。</p>
 <h2 id="CAS的缺点"><a href="#CAS的缺点" class="headerlink" title="CAS的缺点"></a>CAS的缺点</h2><p>1.循环时间长开销很大。<br>    如果 CAS 失败，会一直进行尝试。如果 CAS 长时间一直不成功，可能会给 CPU 带来很大的开销。<br>2.只能保证一个变量的原子操作。<br>    当对一个变量执行操作时，我们可以使用循环 CAS 的方式来保证原子操作，但是对多个变量操作时，CAS 目前无法直接保证操作的原子性。但是我们可以通过以下两种办法来解决：1）使用互斥锁来保证原子性；2）将多个变量封装成对象，通过 AtomicReference 来保证原子性。<br>3.ABA问题。<br>    可以通过控制变量值的版本来保证CAS的正确性.</p>
+<h2 id="Source"><a href="#Source" class="headerlink" title="Source"></a>Source</h2><p><a target="_blank" rel="noopener" href="https://juejin.cn/post/7097910013636640776">https://juejin.cn/post/7097910013636640776</a></p>
 
         <!-- 分类文章 -->
         
@@ -164,7 +172,7 @@ public final int getAndAddInt(Object o, long offset, int delta) &#123;
       <div class="post-content-inner-space">
         
           <div class="space-toc-main animate__animated  animate__fadeInUp">
-            <ol class="space-toc"><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E8%BF%9B%E7%A8%8B%EF%BC%8C%E7%BA%BF%E7%A8%8B%EF%BC%8C%E5%8D%8F%E7%A8%8B"><span class="space-toc-text">进程，线程，协程</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%EF%BC%9F"><span class="space-toc-text">如何保证线程安全？</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E9%94%81%E7%9A%84%E5%88%86%E7%B1%BB"><span class="space-toc-text">锁的分类</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E9%94%81%E5%8D%87%E7%BA%A7%E8%BF%87%E7%A8%8B"><span class="space-toc-text">锁升级过程</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#CAS%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="space-toc-text">CAS是什么？</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E5%9C%A8%E5%8E%9F%E5%AD%90%E6%93%8D%E4%BD%9C%E7%B1%BB%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8-getAndAddInt"><span class="space-toc-text">在原子操作类中的应用 getAndAddInt</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#CAS%E5%AE%9E%E7%8E%B0"><span class="space-toc-text">CAS实现</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#CAS%E7%9A%84%E7%BC%BA%E7%82%B9"><span class="space-toc-text">CAS的缺点</span></a></li></ol>
+            <ol class="space-toc"><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E8%BF%9B%E7%A8%8B%EF%BC%8C%E7%BA%BF%E7%A8%8B%EF%BC%8C%E5%8D%8F%E7%A8%8B"><span class="space-toc-text">进程，线程，协程</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F"><span class="space-toc-text">多线程实现方式</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E7%BA%BF%E7%A8%8B%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%EF%BC%9F"><span class="space-toc-text">线程的生命周期？</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%EF%BC%9F"><span class="space-toc-text">如何保证线程安全？</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E9%94%81%E7%9A%84%E5%88%86%E7%B1%BB"><span class="space-toc-text">锁的分类</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E9%94%81%E5%8D%87%E7%BA%A7%E8%BF%87%E7%A8%8B"><span class="space-toc-text">锁升级过程</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#CAS%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="space-toc-text">CAS是什么？</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E5%9C%A8%E5%8E%9F%E5%AD%90%E6%93%8D%E4%BD%9C%E7%B1%BB%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8-getAndAddInt"><span class="space-toc-text">在原子操作类中的应用 getAndAddInt</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#CAS%E5%AE%9E%E7%8E%B0"><span class="space-toc-text">CAS实现</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#CAS%E7%9A%84%E7%BC%BA%E7%82%B9"><span class="space-toc-text">CAS的缺点</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#Source"><span class="space-toc-text">Source</span></a></li></ol>
            </div>
         
       </div>

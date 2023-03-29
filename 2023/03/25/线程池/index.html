@@ -160,7 +160,12 @@
 </li>
 </ul>
 <p>使用有界队列时，需要注意线程池满了后，被拒绝的任务如何处理。<br>使用无界队列时，需要注意如果任务的提交速度大于线程池的处理速度，可能会导致内存溢出。</p>
-<h2 id="线程池的运作流程"><a href="#线程池的运作流程" class="headerlink" title="线程池的运作流程"></a>线程池的运作流程</h2><p>
+<h2 id="线程池的运作流程"><a href="#线程池的运作流程" class="headerlink" title="线程池的运作流程"></a>线程池的运作流程</h2><ol>
+<li>判断核心线程池是否已满，没满则创建一个新的工作线程来执行任务。</li>
+<li>判断任务队列是否已满，没满则将新提交的任务添加在工作队列。</li>
+<li>判断整个线程池是否已满，没满则创建一个新的工作线程来执行任务，已满则执行饱和（拒绝）策略。</li>
+</ol>
+<p>
         <span class="lazyload-img-span">
         <img   
            data-src="https://img-blog.csdnimg.cn/20200608092639652.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3YxMjM0MTE3Mzk=,size_16,color_FFFFFF,t_70" >

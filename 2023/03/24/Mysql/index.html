@@ -145,7 +145,7 @@
 <h2 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h2><h2 id="Mysql的事务隔离级别有哪些？分别用于解决什么问题？"><a href="#Mysql的事务隔离级别有哪些？分别用于解决什么问题？" class="headerlink" title="Mysql的事务隔离级别有哪些？分别用于解决什么问题？"></a>Mysql的事务隔离级别有哪些？分别用于解决什么问题？</h2><ul>
 <li>读未提交（Read Uncommitted）</li>
 <li>读已提交（Read Committed）</li>
-<li>可重复读（Repeatable Read）</li>
+<li>可重复读（Repeatable Read） Mysql默认</li>
 <li>串行化（Serializable）</li>
 </ul>
 <p>
@@ -173,7 +173,15 @@
 <li>事务ID DB_TRX_ID 6字节</li>
 <li>回滚指针 DB_ROLL_PTR 7字节</li>
 </ul>
-<h2 id="乐观锁和悲观锁以及使用场景"><a href="#乐观锁和悲观锁以及使用场景" class="headerlink" title="乐观锁和悲观锁以及使用场景"></a>乐观锁和悲观锁以及使用场景</h2><h2 id="死锁"><a href="#死锁" class="headerlink" title="死锁"></a>死锁</h2><h2 id="说说Mysql的主从复制"><a href="#说说Mysql的主从复制" class="headerlink" title="说说Mysql的主从复制"></a>说说Mysql的主从复制</h2><h2 id="Source"><a href="#Source" class="headerlink" title="Source"></a>Source</h2><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/72505589">https://zhuanlan.zhihu.com/p/72505589</a><br><a target="_blank" rel="noopener" href="https://joonwhee.blog.csdn.net/article/details/106893197">https://joonwhee.blog.csdn.net/article/details/106893197</a><br><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/25004505/b-tree-or-b-tree">https://stackoverflow.com/questions/25004505/b-tree-or-b-tree</a><br><a target="_blank" rel="noopener" href="https://leetcode.cn/circle/discuss/uRUsKF/">https://leetcode.cn/circle/discuss/uRUsKF/</a><br><a target="_blank" rel="noopener" href="https://xie.infoq.cn/article/7eafabc80c1ab0a8ccc7f1151">https://xie.infoq.cn/article/7eafabc80c1ab0a8ccc7f1151</a></p>
+<p>MVCC的基本原理是在读取和写入数据时，每个事务会看到数据库中某个时间点的快照（snapshot），而不是实际的数据库内容。每个快照都有一个时间戳，它记录了事务开始执行的时间。在读取数据时，如果一个事务要读取已经被其他事务修改过的数据，MVCC会返回之前版本的数据，而不是最新的数据，从而保证事务的一致性。</p>
+<h2 id="乐观锁和悲观锁以及使用场景"><a href="#乐观锁和悲观锁以及使用场景" class="headerlink" title="乐观锁和悲观锁以及使用场景"></a>乐观锁和悲观锁以及使用场景</h2><h2 id="死锁"><a href="#死锁" class="headerlink" title="死锁"></a>死锁</h2><h2 id="说说Mysql的主从复制"><a href="#说说Mysql的主从复制" class="headerlink" title="说说Mysql的主从复制"></a>说说Mysql的主从复制</h2><p>在MySQL主从复制中，主数据库负责对数据进行更新和写入，从数据库负责读取和复制主数据库中的数据。主数据库将变更记录写入二进制日志（binary log），从数据库通过读取主数据库的二进制日志来获取更新的数据。从数据库接收到主数据库发送的二进制日志后，会将其中的变更记录进行重放，从而实现数据的同步。</p>
+<ol>
+<li>在主数据库上启用二进制日志（binlog）功能。</li>
+<li>在从数据库上设置主数据库的地址和端口号，并开启从数据库的复制功能。</li>
+<li>从数据库连接到主数据库并请求同步数据，主数据库在收到从数据库的请求后将数据写入二进制日志。</li>
+<li>从数据库读取主数据库的二进制日志，并将其中的变更记录重放到从数据库中，从而实现数据的同步。</li>
+</ol>
+<h2 id="Source"><a href="#Source" class="headerlink" title="Source"></a>Source</h2><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/72505589">https://zhuanlan.zhihu.com/p/72505589</a><br><a target="_blank" rel="noopener" href="https://joonwhee.blog.csdn.net/article/details/106893197">https://joonwhee.blog.csdn.net/article/details/106893197</a><br><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/25004505/b-tree-or-b-tree">https://stackoverflow.com/questions/25004505/b-tree-or-b-tree</a><br><a target="_blank" rel="noopener" href="https://leetcode.cn/circle/discuss/uRUsKF/">https://leetcode.cn/circle/discuss/uRUsKF/</a><br><a target="_blank" rel="noopener" href="https://xie.infoq.cn/article/7eafabc80c1ab0a8ccc7f1151">https://xie.infoq.cn/article/7eafabc80c1ab0a8ccc7f1151</a></p>
 
         <!-- 分类文章 -->
         
