@@ -142,7 +142,22 @@
 <li>第三范式：消除传递依赖，属性不依赖于其他非主属性。</li>
 <li>BCNF范式：</li>
 </ul>
-<h2 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h2><h2 id="Mysql的事务隔离级别有哪些？分别用于解决什么问题？"><a href="#Mysql的事务隔离级别有哪些？分别用于解决什么问题？" class="headerlink" title="Mysql的事务隔离级别有哪些？分别用于解决什么问题？"></a>Mysql的事务隔离级别有哪些？分别用于解决什么问题？</h2><ul>
+<h2 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h2><ul>
+<li>事务是并发控制的单位，是用户定义的一个操作序列。有四个特性(ACID)：<ul>
+<li>原子性(Atomicity)： 事务是数据库的逻辑工作单位，事务中包括的诸操作要么全做，要么全不做。</li>
+<li>一致性(Consistency)： 事务执行的结果必须是使数据库从一个一致性状态变到另一个一致性状态。一致性与原子性是密切相关的。</li>
+<li>隔离性(Isolation)： 一个事务的执行不能被其他事务干扰。</li>
+<li>持续性&#x2F;永久性(Durability)： 一个事务一旦提交，它对数据库中数据的改变就应该是永久性的。</li>
+</ul>
+</li>
+</ul>
+<h2 id="MySQL-存储引擎有哪些？他们之间的区别？"><a href="#MySQL-存储引擎有哪些？他们之间的区别？" class="headerlink" title="MySQL 存储引擎有哪些？他们之间的区别？"></a>MySQL 存储引擎有哪些？他们之间的区别？</h2><ol>
+<li>MyISAM：MyISAM是MySQL中最常用的存储引擎之一，它具有较高的性能和较小的存储空间。MyISAM对于读操作具有较快的速度，但对于写操作则不够高效。MyISAM不支持事务和行级锁，因此不适用于高并发、高写入的应用场景。</li>
+<li>InnoDB：InnoDB是MySQL中支持事务的存储引擎之一，它的特点是支持事务、行级锁、外键等高级功能。InnoDB适用于高并发、高写入、数据完整性要求高的应用场景，例如电商、金融等领域。</li>
+<li>Memory：Memory存储引擎是一种基于内存的存储引擎，它将数据存储在内存中，因此读写速度非常快，适用于一些对性能要求极高的应用场景。但是，由于数据存储在内存中，因此不支持事务、持久化等高级功能，同时也不适用于大量数据的存储。</li>
+<li>NDB：NDB是MySQL中的集群存储引擎，它的特点是具有高可用性、高可扩展性、高并发性等优点。NDB适用于分布式系统、高并发、高可用、高可扩展性等应用场景。</li>
+</ol>
+<h2 id="Mysql的事务隔离级别有哪些？分别用于解决什么问题？"><a href="#Mysql的事务隔离级别有哪些？分别用于解决什么问题？" class="headerlink" title="Mysql的事务隔离级别有哪些？分别用于解决什么问题？"></a>Mysql的事务隔离级别有哪些？分别用于解决什么问题？</h2><ul>
 <li>读未提交（Read Uncommitted）</li>
 <li>读已提交（Read Committed）</li>
 <li>可重复读（Repeatable Read） Mysql默认</li>
@@ -189,7 +204,7 @@
       <div class="post-content-inner-space">
         
           <div class="space-toc-main animate__animated  animate__fadeInUp">
-            <ol class="space-toc"><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E5%B8%B8%E8%A7%81%E7%9A%84%E7%B4%A2%E5%BC%95%E7%B1%BB%E5%9E%8B%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F"><span class="space-toc-text">常见的索引类型有哪些？</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88Mysql%E8%A6%81%E7%94%A8B-%E6%95%B0%E6%9D%A5%E5%AD%98%E5%82%A8%E7%B4%A2%E5%BC%95%EF%BC%9F"><span class="space-toc-text">为什么Mysql要用B+数来存储索引？</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E4%BB%8B%E7%BB%8D%E4%B8%80%E4%B8%8B%E6%95%B0%E6%8D%AE%E5%BA%93%E8%8C%83%E5%BC%8F"><span class="space-toc-text">介绍一下数据库范式</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E4%BA%8B%E5%8A%A1"><span class="space-toc-text">事务</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#Mysql%E7%9A%84%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F%E5%88%86%E5%88%AB%E7%94%A8%E4%BA%8E%E8%A7%A3%E5%86%B3%E4%BB%80%E4%B9%88%E9%97%AE%E9%A2%98%EF%BC%9F"><span class="space-toc-text">Mysql的事务隔离级别有哪些？分别用于解决什么问题？</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#MVCC"><span class="space-toc-text">MVCC</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E4%B9%90%E8%A7%82%E9%94%81%E5%92%8C%E6%82%B2%E8%A7%82%E9%94%81%E4%BB%A5%E5%8F%8A%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="space-toc-text">乐观锁和悲观锁以及使用场景</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E6%AD%BB%E9%94%81"><span class="space-toc-text">死锁</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E8%AF%B4%E8%AF%B4Mysql%E7%9A%84%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6"><span class="space-toc-text">说说Mysql的主从复制</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#Source"><span class="space-toc-text">Source</span></a></li></ol>
+            <ol class="space-toc"><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E5%B8%B8%E8%A7%81%E7%9A%84%E7%B4%A2%E5%BC%95%E7%B1%BB%E5%9E%8B%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F"><span class="space-toc-text">常见的索引类型有哪些？</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88Mysql%E8%A6%81%E7%94%A8B-%E6%95%B0%E6%9D%A5%E5%AD%98%E5%82%A8%E7%B4%A2%E5%BC%95%EF%BC%9F"><span class="space-toc-text">为什么Mysql要用B+数来存储索引？</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E4%BB%8B%E7%BB%8D%E4%B8%80%E4%B8%8B%E6%95%B0%E6%8D%AE%E5%BA%93%E8%8C%83%E5%BC%8F"><span class="space-toc-text">介绍一下数据库范式</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E4%BA%8B%E5%8A%A1"><span class="space-toc-text">事务</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#MySQL-%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F%E4%BB%96%E4%BB%AC%E4%B9%8B%E9%97%B4%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="space-toc-text">MySQL 存储引擎有哪些？他们之间的区别？</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#Mysql%E7%9A%84%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F%E5%88%86%E5%88%AB%E7%94%A8%E4%BA%8E%E8%A7%A3%E5%86%B3%E4%BB%80%E4%B9%88%E9%97%AE%E9%A2%98%EF%BC%9F"><span class="space-toc-text">Mysql的事务隔离级别有哪些？分别用于解决什么问题？</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#MVCC"><span class="space-toc-text">MVCC</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E4%B9%90%E8%A7%82%E9%94%81%E5%92%8C%E6%82%B2%E8%A7%82%E9%94%81%E4%BB%A5%E5%8F%8A%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="space-toc-text">乐观锁和悲观锁以及使用场景</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E6%AD%BB%E9%94%81"><span class="space-toc-text">死锁</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E8%AF%B4%E8%AF%B4Mysql%E7%9A%84%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6"><span class="space-toc-text">说说Mysql的主从复制</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#Source"><span class="space-toc-text">Source</span></a></li></ol>
            </div>
         
       </div>
