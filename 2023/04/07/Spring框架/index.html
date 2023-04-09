@@ -103,7 +103,7 @@
   <div class="post-content-outer">
     <div class="post-intro">
       <div class="post-title animate__animated  animate__fadeInUp">Spring框架</div>
-      <div class="meta-intro animate__animated  animate__fadeInUp">Mar 29 2023</div>
+      <div class="meta-intro animate__animated  animate__fadeInUp">Apr 07 2023</div>
       
     </div>
     <div class="post-content-inner">
@@ -125,10 +125,21 @@
 <li>字段注入（Field Injection）：通过直接注入依赖对象到类的字段上，可以简化代码编写，但不够灵活，也不推荐使用。可以使用 @Autowired 或 @Resource 注解标注字段，Spring 会自动注入字段所需的依赖对象。</li>
 <li>接口注入（Interface Injection）：通过实现接口来实现依赖注入，可以提高代码的灵活性和可扩展性。可以使用 @Autowired 或 @Resource 注解标注实现接口的类，Spring 会自动注入接口的实现类。</li>
 </ul>
-<h2 id="IOC-amp-AOP"><a href="#IOC-amp-AOP" class="headerlink" title="IOC &amp; AOP"></a>IOC &amp; AOP</h2><ul>
-<li>IOC是控制反转，AOP是面向切面编程</li>
-<li>IOC利用Java的反射和依赖注入技术，把对象的创建和依赖关系的维护交给框架来处理，实现代码的解藕。提高了系统的可维护性和扩展性。</li>
-<li>AOP 是一种编程范式，它通过将通用的横切逻辑（如日志记录、事务管理、权限控制等）从业务逻辑中分离出来，以切面的方式来进行处理。这样，业务逻辑和通用逻辑就可以独立地进行开发和维护，大大提高了代码的重用性和可维护性。</li>
+<h2 id="说一下你对Spring的理解"><a href="#说一下你对Spring的理解" class="headerlink" title="说一下你对Spring的理解?"></a>说一下你对Spring的理解?</h2><ul>
+<li>Spring的核心主要的就三个点IOC，DI和AOP。</li>
+<li>IOC是控制反转。如果不使用Spring框架，如果要创建一个对象，就使用new。用了Spring框架之后直接把类交给Spring来管理，让Spring创建Bean单例对象。Spring的Bean工厂是工厂模式，底层创建对象的方式是配置文件加反射的方式。</li>
+<li>DI是依赖注入，把Spring创建好的对象注入到要使用的地方。项目中使用@AutoWired按照类型注入，直接获取到这个类的对象。</li>
+<li>AOP是面向切面编程，原理是实现了动态代理机制。是一种编程范式，它通过将通用的横切逻辑（如日志记录、事务管理、权限控制等）从业务逻辑中分离出来，以切面的方式来进行处理。这样，业务逻辑和通用逻辑就可以独立地进行开发和维护，大大提高了代码的重用性和可维护性。</li>
+</ul>
+<h2 id="说一下SpringBoot"><a href="#说一下SpringBoot" class="headerlink" title="说一下SpringBoot"></a>说一下SpringBoot</h2><ul>
+<li>约定大于配置，通过自动配置，引入依赖后，加载默认配置文件。如果要自定义的话可以在application.yml是定义。</li>
+<li>优点<ul>
+<li>快速创建独立运行的Spring项目以及主流框架集成</li>
+<li>使用Servlet容器无需打包成war包</li>
+<li>大量自动配置，简化开发</li>
+<li>无需配置大量xml，无代码生成，开箱即用。</li>
+</ul>
+</li>
 </ul>
 
         <!-- 分类文章 -->
@@ -137,7 +148,7 @@
       <div class="post-content-inner-space">
         
           <div class="space-toc-main animate__animated  animate__fadeInUp">
-            <ol class="space-toc"><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#Spring-%E5%B8%B8%E7%94%A8%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F"><span class="space-toc-text">Spring 常用设计模式</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#Spring-%E5%B8%B8%E7%94%A8%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5%E6%96%B9%E5%BC%8F%EF%BC%9F"><span class="space-toc-text">Spring 常用依赖注入方式？</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#IOC-amp-AOP"><span class="space-toc-text">IOC &amp; AOP</span></a></li></ol>
+            <ol class="space-toc"><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#Spring-%E5%B8%B8%E7%94%A8%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F"><span class="space-toc-text">Spring 常用设计模式</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#Spring-%E5%B8%B8%E7%94%A8%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5%E6%96%B9%E5%BC%8F%EF%BC%9F"><span class="space-toc-text">Spring 常用依赖注入方式？</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E8%AF%B4%E4%B8%80%E4%B8%8B%E4%BD%A0%E5%AF%B9Spring%E7%9A%84%E7%90%86%E8%A7%A3"><span class="space-toc-text">说一下你对Spring的理解?</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E8%AF%B4%E4%B8%80%E4%B8%8BSpringBoot"><span class="space-toc-text">说一下SpringBoot</span></a></li></ol>
            </div>
         
       </div>

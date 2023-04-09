@@ -157,6 +157,28 @@
 <li>Queue代表先进先出（FIFO）的队列；</li>
 <li>Map代表具有映射关系（key-value）的集合。</li>
 </ul>
+<hr>
+<ul>
+<li>Collection 单列集合<ul>
+<li>List 元素可重复，有序<ul>
+<li>ArrayList 底层为数组，查询快，增删慢</li>
+<li>LinkedList 底层为双端链表，查询慢，增删快</li>
+</ul>
+</li>
+<li>Set 元素不可重复，无序<ul>
+<li>HashSet 底层为HashMap，数组加链表实现</li>
+<li>TreeSet 底层为红黑树，有序</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Map 双列集合<ul>
+<li>HashMap 底层数组加链表</li>
+<li>TreeMap 底层为红黑树，有序</li>
+<li>LinkedHashMap 底层HashMap和LinkedList实现，通过HashMap实现key-value键值对存储，通过链表实现元素有序。</li>
+</ul>
+</li>
+</ul>
 <h2 id="Java中的容器，线程安全和线程不安全的分别有哪些？"><a href="#Java中的容器，线程安全和线程不安全的分别有哪些？" class="headerlink" title="Java中的容器，线程安全和线程不安全的分别有哪些？"></a>Java中的容器，线程安全和线程不安全的分别有哪些？</h2><ul>
 <li>线程不安全容器：比如说ArrayList HashMap HashSet TreeSet都不是</li>
 <li>线程安全容器：在JUC（java.util.concurrent）下的都是线程安全的，还有vector，hashtable但不建议使用。<ul>

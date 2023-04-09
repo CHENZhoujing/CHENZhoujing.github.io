@@ -103,7 +103,7 @@
   <div class="post-content-outer">
     <div class="post-intro">
       <div class="post-title animate__animated  animate__fadeInUp">多线程</div>
-      <div class="meta-intro animate__animated  animate__fadeInUp">Mar 25 2023</div>
+      <div class="meta-intro animate__animated  animate__fadeInUp">Apr 09 2023</div>
       
     </div>
     <div class="post-content-inner">
@@ -164,7 +164,67 @@ public final int getAndAddInt(Object o, long offset, int delta) &#123;
 <p>拿到内存位置的最新值v，使用CAS尝试把内存位置的值修改为v+delta，如果失败，则重新获取内存位置最新值v，然后继续尝试修改，直至修改成功。</p>
 <h2 id="CAS实现"><a href="#CAS实现" class="headerlink" title="CAS实现"></a>CAS实现</h2><p>CAS 的实现离不开处理器的支持，核心代码就是一条带 lock 前缀的 cmpxchg 指令，即lock cmpxchg dword ptr [edx], ecx。在其内部，还会有LOCK_IF_MP(mp)会根据mp的值来决定是否为cmpxchg指令添加lock前缀。<br>lock前缀说明（Intel）:<br>1.确保对内存的读-改-写操作原子执行。<br>2.禁止该指令与之前和之后的读和写指令重排序。<br>3.把写缓冲区中的所有数据刷新到内存中。</p>
 <h2 id="CAS的缺点"><a href="#CAS的缺点" class="headerlink" title="CAS的缺点"></a>CAS的缺点</h2><p>1.循环时间长开销很大。<br>    如果 CAS 失败，会一直进行尝试。如果 CAS 长时间一直不成功，可能会给 CPU 带来很大的开销。<br>2.只能保证一个变量的原子操作。<br>    当对一个变量执行操作时，我们可以使用循环 CAS 的方式来保证原子操作，但是对多个变量操作时，CAS 目前无法直接保证操作的原子性。但是我们可以通过以下两种办法来解决：1）使用互斥锁来保证原子性；2）将多个变量封装成对象，通过 AtomicReference 来保证原子性。<br>3.ABA问题。<br>    可以通过控制变量值的版本来保证CAS的正确性.</p>
-<h2 id="Source"><a href="#Source" class="headerlink" title="Source"></a>Source</h2><p><a target="_blank" rel="noopener" href="https://juejin.cn/post/7097910013636640776">https://juejin.cn/post/7097910013636640776</a></p>
+<h2 id="ThreadLocal"><a href="#ThreadLocal" class="headerlink" title="ThreadLocal"></a>ThreadLocal</h2><pre><code>class ThreadLocalMap &#123;
+    //初始容量
+    private static final int INITIAL_CAPACITY = 16;
+    //存放元素的数组
+    private Entry[] table;
+    //元素个数
+    private int size = 0;
+&#125;
+
+private ThreadLocal&lt;Order&gt; threadLocal = new ThreadLocal&lt;&gt;();
+public void post(Order order) &#123;
+    try &#123;
+        threadLocal.set(order);
+        doOrder();
+    &#125; finally &#123;
+        threadLocal.remove();
+    &#125;
+&#125;
+private void doOrder() &#123;
+    System.out.println(&quot;处理订单逻辑&quot;);
+&#125;
+</code></pre>
+<ul>
+<li>核心思想<ul>
+<li>空间换时间，共享变量在每个线程都有一个副本，每个副本都操作自己的副本，对其他的线程没有影响。</li>
+</ul>
+</li>
+<li>原理<ul>
+<li>静态内部类 ThreadLocalMap<br>
+        <span class="lazyload-img-span">
+        <img   
+           data-src="https://picx.zhimg.com/80/v2-ce5b8a32cd1245c7c8af5fc15ffcc39f_1440w.webp?source=1940ef5c" >
+        </sapn>
+      <br>
+        <span class="lazyload-img-span">
+        <img   
+           data-src="https://pic1.zhimg.com/80/v2-6875e31029e2c834cce5feb04bc22474_1440w.webp?source=1940ef5c" >
+        </sapn>
+      </li>
+<li>ThreadLocal 可能会出现在堆或者方法区（static）。</li>
+</ul>
+</li>
+<li>为什么用ThreadLocal做key？<ul>
+<li>Thread类有个ThreadLocalMap成员变量，这个ThreadLocalMap中的key是Threadlocal 对象，value是要存放的线程局部变量。</li>
+<li>Thread可能使用很多个ThreadLocal对象，所以不能使用Thread作为key。</li>
+</ul>
+</li>
+<li>Entry的key为什么设计成弱引用？<ul>
+<li>减少内存泄漏</li>
+<li>弱引用对象在GC是会被自动回收。</li>
+<li>如果key是弱引用，当ThreadLocal变量指向null之后，在GC做垃圾清理的时候，key会被自动回收，其值也被设置成null。</li>
+<li>如果系统中还定义了另外一个ThreadLocal变量b，调用了它的get、set或remove，三个方法中的任何一个方法，都会自动触发清理机制，将key为null的value值清空。</li>
+<li>如果key和value都是null，那么Entry对象会被GC回收。如果所有的Entry对象都被回收了，ThreadLocalMap也会被回收了。</li>
+</ul>
+</li>
+<li>ThreadLocalMap发生Hash冲突怎么解决？<ul>
+<li>ThreadLocalMap采用的是开放定址法，如果发生冲突，就往后找相邻的下一个节点，如果相邻的节点是空的，那么久直接存进去，如果不为空，继续往后查找，如果找到数据的最后也没有找到空的，就扩容</li>
+</ul>
+</li>
+</ul>
+<h2 id="Source"><a href="#Source" class="headerlink" title="Source"></a>Source</h2><p><a target="_blank" rel="noopener" href="https://juejin.cn/post/7097910013636640776">https://juejin.cn/post/7097910013636640776</a><br><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/21709953">https://www.zhihu.com/question/21709953</a><br><a target="_blank" rel="noopener" href="https://juejin.cn/post/6963646002150506533">https://juejin.cn/post/6963646002150506533</a></p>
 
         <!-- 分类文章 -->
         
@@ -172,7 +232,7 @@ public final int getAndAddInt(Object o, long offset, int delta) &#123;
       <div class="post-content-inner-space">
         
           <div class="space-toc-main animate__animated  animate__fadeInUp">
-            <ol class="space-toc"><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E8%BF%9B%E7%A8%8B%EF%BC%8C%E7%BA%BF%E7%A8%8B%EF%BC%8C%E5%8D%8F%E7%A8%8B"><span class="space-toc-text">进程，线程，协程</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F"><span class="space-toc-text">多线程实现方式</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E7%BA%BF%E7%A8%8B%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%EF%BC%9F"><span class="space-toc-text">线程的生命周期？</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%EF%BC%9F"><span class="space-toc-text">如何保证线程安全？</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E9%94%81%E7%9A%84%E5%88%86%E7%B1%BB"><span class="space-toc-text">锁的分类</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E9%94%81%E5%8D%87%E7%BA%A7%E8%BF%87%E7%A8%8B"><span class="space-toc-text">锁升级过程</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#CAS%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="space-toc-text">CAS是什么？</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E5%9C%A8%E5%8E%9F%E5%AD%90%E6%93%8D%E4%BD%9C%E7%B1%BB%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8-getAndAddInt"><span class="space-toc-text">在原子操作类中的应用 getAndAddInt</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#CAS%E5%AE%9E%E7%8E%B0"><span class="space-toc-text">CAS实现</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#CAS%E7%9A%84%E7%BC%BA%E7%82%B9"><span class="space-toc-text">CAS的缺点</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#Source"><span class="space-toc-text">Source</span></a></li></ol>
+            <ol class="space-toc"><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E8%BF%9B%E7%A8%8B%EF%BC%8C%E7%BA%BF%E7%A8%8B%EF%BC%8C%E5%8D%8F%E7%A8%8B"><span class="space-toc-text">进程，线程，协程</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F"><span class="space-toc-text">多线程实现方式</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E7%BA%BF%E7%A8%8B%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%EF%BC%9F"><span class="space-toc-text">线程的生命周期？</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%EF%BC%9F"><span class="space-toc-text">如何保证线程安全？</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E9%94%81%E7%9A%84%E5%88%86%E7%B1%BB"><span class="space-toc-text">锁的分类</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E9%94%81%E5%8D%87%E7%BA%A7%E8%BF%87%E7%A8%8B"><span class="space-toc-text">锁升级过程</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#CAS%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="space-toc-text">CAS是什么？</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E5%9C%A8%E5%8E%9F%E5%AD%90%E6%93%8D%E4%BD%9C%E7%B1%BB%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8-getAndAddInt"><span class="space-toc-text">在原子操作类中的应用 getAndAddInt</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#CAS%E5%AE%9E%E7%8E%B0"><span class="space-toc-text">CAS实现</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#CAS%E7%9A%84%E7%BC%BA%E7%82%B9"><span class="space-toc-text">CAS的缺点</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#ThreadLocal"><span class="space-toc-text">ThreadLocal</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#Source"><span class="space-toc-text">Source</span></a></li></ol>
            </div>
         
       </div>
