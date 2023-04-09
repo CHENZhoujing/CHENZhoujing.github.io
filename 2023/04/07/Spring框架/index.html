@@ -129,7 +129,7 @@
 <li>Spring的核心主要的就三个点IOC，DI和AOP。</li>
 <li>IOC是控制反转。如果不使用Spring框架，如果要创建一个对象，就使用new。用了Spring框架之后直接把类交给Spring来管理，让Spring创建Bean单例对象。Spring的Bean工厂是工厂模式，底层创建对象的方式是配置文件加反射的方式。</li>
 <li>DI是依赖注入，把Spring创建好的对象注入到要使用的地方。项目中使用@AutoWired按照类型注入，直接获取到这个类的对象。</li>
-<li>AOP是面向切面编程，原理是实现了动态代理机制。是一种编程范式，它通过将通用的横切逻辑（如日志记录、事务管理、权限控制等）从业务逻辑中分离出来，以切面的方式来进行处理。这样，业务逻辑和通用逻辑就可以独立地进行开发和维护，大大提高了代码的重用性和可维护性。</li>
+<li>AOP是面向切面编程，通过预编译方式和运行期动态代理实现程序功能的统一维护的一种技术。</li>
 </ul>
 <h2 id="说一下SpringBoot"><a href="#说一下SpringBoot" class="headerlink" title="说一下SpringBoot"></a>说一下SpringBoot</h2><ul>
 <li>约定大于配置，通过自动配置，引入依赖后，加载默认配置文件。如果要自定义的话可以在application.yml是定义。</li>
