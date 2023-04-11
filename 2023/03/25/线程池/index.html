@@ -119,24 +119,20 @@
 <li>线程池可以统一分配，调优，监控线程。</li>
 </ol>
 <h2 id="线程池的核心参数"><a href="#线程池的核心参数" class="headerlink" title="线程池的核心参数"></a>线程池的核心参数</h2><ul>
-<li><p>threadFactory 线程工厂</p>
-<ul>
+<li>threadFactory 线程工厂<ul>
 <li>可以设置线程的优先级、线程命名规则以及线程类型（用户线程还是守护线程）等</li>
 </ul>
 </li>
-<li><p>corePollSize 核心线程数</p>
-<ul>
+<li>corePollSize 核心线程数<ul>
 <li>指线程池中长期存活的线程数</li>
 <li>好比古代大户人家，会长期雇佣一些“长工”来给他们干活</li>
 </ul>
 </li>
-<li><p>maximumPoolSize 最大线程数</p>
-<ul>
+<li>maximumPoolSize 最大线程数<ul>
 <li>古代大户人家最多可以雇佣的人数，比如某个节日或大户人家有人过寿时，因为活太多，仅靠“长工”是完不成任务，这时就会再招聘一些“短工”一起来干活，这个最大线程数就是“长工”+“短工”的总人数</li>
 </ul>
 </li>
-<li><p>workQueue 队列</p>
-<ul>
+<li>workQueue 队列<ul>
 <li>ArrayBlockingQueue：一个由数组结构组成的有界阻塞队列。</li>
 <li>LinkedBlockingQueue：一个由链表结构组成的有界阻塞队列。</li>
 <li>SynchronousQueue：一个不存储元素的阻塞队列，即直接提交给线程不保持它们。</li>
@@ -146,18 +142,15 @@
 <li>LinkedBlockingDeque：一个由链表结构组成的双向阻塞队列。</li>
 </ul>
 </li>
-<li><p>handler 拒绝策略</p>
-<ul>
+<li>handler 拒绝策略<ul>
 <li>AbortPolicy：拒绝并抛出异常。默认的拒绝策略。</li>
 <li>DiscardPolicy：忽略并抛弃当前任务。</li>
 <li>CallerRunsPolicy：使用当前调用的线程来执行此任务。</li>
 <li>DiscardOldestPolicy：抛弃队列头部（最旧）的一个任务，并执行当前任务。</li>
 </ul>
 </li>
-<li><p>keepAliveTime 保持存活时间</p>
-</li>
-<li><p>TimeUnit 时间单位</p>
-</li>
+<li>keepAliveTime 保持存活时间</li>
+<li>TimeUnit 时间单位</li>
 </ul>
 <p>使用有界队列时，需要注意线程池满了后，被拒绝的任务如何处理。<br>使用无界队列时，需要注意如果任务的提交速度大于线程池的处理速度，可能会导致内存溢出。</p>
 <h2 id="线程池的运作流程"><a href="#线程池的运作流程" class="headerlink" title="线程池的运作流程"></a>线程池的运作流程</h2><ol>

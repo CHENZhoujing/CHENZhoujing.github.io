@@ -130,7 +130,12 @@
 <li>二叉搜索树，平衡二叉树，红黑树的层数过多，磁盘IO对查询速度影响极大。<ul>
 <li>二叉搜索树：可能退化为链表。</li>
 <li>平衡二叉树AVL（节点的左子树和右子树的高度差至多等于1）：最坏的查找时间复杂度也为 O(logn)，但是在插入、删除很频繁的场景中，平衡树需要频繁着进行调整，这会使平衡树的性能大打折扣。</li>
-<li>红黑树是一个不大严格的平衡树，减少因为插入和删除导致的调整的次数，是一个折中的方案。</li>
+<li>红黑树是一个不大严格的平衡树，减少因为插入和删除导致的调整的次数，是一个折中的方案。<ul>
+<li>节点是红色或者黑色的</li>
+<li>根节点是黑色的</li>
+<li>不能有两个连续的红色节点</li>
+</ul>
+</li>
 </ul>
 </li>
 <li>B数的非叶子节点存放了记录数据的地址，会导致存储的节点更少，树的层数变高。同时如要访问下一页，需要退回到父节点。跨层访问会带来额外的磁盘IO。</li>
@@ -189,7 +194,16 @@
 <li>回滚指针 DB_ROLL_PTR 7字节</li>
 </ul>
 <p>MVCC的基本原理是在读取和写入数据时，每个事务会看到数据库中某个时间点的快照（snapshot），而不是实际的数据库内容。每个快照都有一个时间戳，它记录了事务开始执行的时间。在读取数据时，如果一个事务要读取已经被其他事务修改过的数据，MVCC会返回之前版本的数据，而不是最新的数据，从而保证事务的一致性。</p>
-<h2 id="乐观锁和悲观锁以及使用场景"><a href="#乐观锁和悲观锁以及使用场景" class="headerlink" title="乐观锁和悲观锁以及使用场景"></a>乐观锁和悲观锁以及使用场景</h2><h2 id="死锁"><a href="#死锁" class="headerlink" title="死锁"></a>死锁</h2><h2 id="说说Mysql的主从复制"><a href="#说说Mysql的主从复制" class="headerlink" title="说说Mysql的主从复制"></a>说说Mysql的主从复制</h2><p>在MySQL主从复制中，主数据库负责对数据进行更新和写入，从数据库负责读取和复制主数据库中的数据。主数据库将变更记录写入二进制日志（binary log），从数据库通过读取主数据库的二进制日志来获取更新的数据。从数据库接收到主数据库发送的二进制日志后，会将其中的变更记录进行重放，从而实现数据的同步。</p>
+<h2 id="Mysql的锁你了解哪些"><a href="#Mysql的锁你了解哪些" class="headerlink" title="Mysql的锁你了解哪些"></a>Mysql的锁你了解哪些</h2><h2 id="按锁粒度分类：1-行所：锁住一行，锁粒度最小，并发度高2-表锁：锁住一张表，锁粒度大，并发度低3-间隙锁：锁住一个区间"><a href="#按锁粒度分类：1-行所：锁住一行，锁粒度最小，并发度高2-表锁：锁住一张表，锁粒度大，并发度低3-间隙锁：锁住一个区间" class="headerlink" title="按锁粒度分类：1. 行所：锁住一行，锁粒度最小，并发度高2. 表锁：锁住一张表，锁粒度大，并发度低3. 间隙锁：锁住一个区间"></a>按锁粒度分类：<br>1. 行所：锁住一行，锁粒度最小，并发度高<br>2. 表锁：锁住一张表，锁粒度大，并发度低<br>3. 间隙锁：锁住一个区间</h2><ol>
+<li>共享锁：也就是读锁，⼀个事务给某⾏数据加了读锁，其他事务也可以读，但是不能写</li>
+<li>排它锁：也就是写锁，⼀个事务给某⾏数据加了写锁，其他事务不能读，也不能写</li>
+</ol>
+<hr>
+<ol>
+<li>乐观锁：并不会真正的去锁某⾏记录，⽽是通过⼀个版本号来实现的</li>
+<li>悲观锁：上⾯所的⾏锁、表锁等都是悲观锁</li>
+</ol>
+<h2 id="说说Mysql的主从复制"><a href="#说说Mysql的主从复制" class="headerlink" title="说说Mysql的主从复制"></a>说说Mysql的主从复制</h2><p>在MySQL主从复制中，主数据库负责对数据进行更新和写入，从数据库负责读取和复制主数据库中的数据。主数据库将变更记录写入二进制日志（binary log），从数据库通过读取主数据库的二进制日志来获取更新的数据。从数据库接收到主数据库发送的二进制日志后，会将其中的变更记录进行重放，从而实现数据的同步。</p>
 <ol>
 <li>在主数据库上启用二进制日志（binlog）功能。</li>
 <li>在从数据库上设置主数据库的地址和端口号，并开启从数据库的复制功能。</li>
@@ -207,6 +221,11 @@
 </ul>
 </li>
 </ul>
+<h1 id="Mysql数据库中，什么情况下设置了索引但⽆法使⽤"><a href="#Mysql数据库中，什么情况下设置了索引但⽆法使⽤" class="headerlink" title="Mysql数据库中，什么情况下设置了索引但⽆法使⽤?"></a>Mysql数据库中，什么情况下设置了索引但⽆法使⽤?</h1><ol>
+<li>没有符合最左前缀原则</li>
+<li>字段进⾏了隐式数据类型转化</li>
+<li>⾛索引没有全表扫描效率⾼</li>
+</ol>
 <h2 id="Source"><a href="#Source" class="headerlink" title="Source"></a>Source</h2><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/72505589">https://zhuanlan.zhihu.com/p/72505589</a><br><a target="_blank" rel="noopener" href="https://joonwhee.blog.csdn.net/article/details/106893197">https://joonwhee.blog.csdn.net/article/details/106893197</a><br><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/25004505/b-tree-or-b-tree">https://stackoverflow.com/questions/25004505/b-tree-or-b-tree</a><br><a target="_blank" rel="noopener" href="https://leetcode.cn/circle/discuss/uRUsKF/">https://leetcode.cn/circle/discuss/uRUsKF/</a><br><a target="_blank" rel="noopener" href="https://xie.infoq.cn/article/7eafabc80c1ab0a8ccc7f1151">https://xie.infoq.cn/article/7eafabc80c1ab0a8ccc7f1151</a></p>
 
         <!-- 分类文章 -->
@@ -215,7 +234,7 @@
       <div class="post-content-inner-space">
         
           <div class="space-toc-main animate__animated  animate__fadeInUp">
-            <ol class="space-toc"><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E5%B8%B8%E8%A7%81%E7%9A%84%E7%B4%A2%E5%BC%95%E7%B1%BB%E5%9E%8B%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F"><span class="space-toc-text">常见的索引类型有哪些？</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88Mysql%E8%A6%81%E7%94%A8B-%E6%95%B0%E6%9D%A5%E5%AD%98%E5%82%A8%E7%B4%A2%E5%BC%95%EF%BC%9F"><span class="space-toc-text">为什么Mysql要用B+数来存储索引？</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E4%BB%8B%E7%BB%8D%E4%B8%80%E4%B8%8B%E6%95%B0%E6%8D%AE%E5%BA%93%E8%8C%83%E5%BC%8F"><span class="space-toc-text">介绍一下数据库范式</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E4%BA%8B%E5%8A%A1"><span class="space-toc-text">事务</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#MySQL-%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F%E4%BB%96%E4%BB%AC%E4%B9%8B%E9%97%B4%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="space-toc-text">MySQL 存储引擎有哪些？他们之间的区别？</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#Mysql%E7%9A%84%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F%E5%88%86%E5%88%AB%E7%94%A8%E4%BA%8E%E8%A7%A3%E5%86%B3%E4%BB%80%E4%B9%88%E9%97%AE%E9%A2%98%EF%BC%9F"><span class="space-toc-text">Mysql的事务隔离级别有哪些？分别用于解决什么问题？</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#MVCC"><span class="space-toc-text">MVCC</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E4%B9%90%E8%A7%82%E9%94%81%E5%92%8C%E6%82%B2%E8%A7%82%E9%94%81%E4%BB%A5%E5%8F%8A%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="space-toc-text">乐观锁和悲观锁以及使用场景</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E6%AD%BB%E9%94%81"><span class="space-toc-text">死锁</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E8%AF%B4%E8%AF%B4Mysql%E7%9A%84%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6"><span class="space-toc-text">说说Mysql的主从复制</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#SQL%E8%AF%AD%E5%8F%A5%E4%BC%98%E5%8C%96"><span class="space-toc-text">SQL语句优化</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#Source"><span class="space-toc-text">Source</span></a></li></ol>
+            <ol class="space-toc"><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E5%B8%B8%E8%A7%81%E7%9A%84%E7%B4%A2%E5%BC%95%E7%B1%BB%E5%9E%8B%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F"><span class="space-toc-text">常见的索引类型有哪些？</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88Mysql%E8%A6%81%E7%94%A8B-%E6%95%B0%E6%9D%A5%E5%AD%98%E5%82%A8%E7%B4%A2%E5%BC%95%EF%BC%9F"><span class="space-toc-text">为什么Mysql要用B+数来存储索引？</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E4%BB%8B%E7%BB%8D%E4%B8%80%E4%B8%8B%E6%95%B0%E6%8D%AE%E5%BA%93%E8%8C%83%E5%BC%8F"><span class="space-toc-text">介绍一下数据库范式</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E4%BA%8B%E5%8A%A1"><span class="space-toc-text">事务</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#MySQL-%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F%E4%BB%96%E4%BB%AC%E4%B9%8B%E9%97%B4%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="space-toc-text">MySQL 存储引擎有哪些？他们之间的区别？</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#Mysql%E7%9A%84%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F%E5%88%86%E5%88%AB%E7%94%A8%E4%BA%8E%E8%A7%A3%E5%86%B3%E4%BB%80%E4%B9%88%E9%97%AE%E9%A2%98%EF%BC%9F"><span class="space-toc-text">Mysql的事务隔离级别有哪些？分别用于解决什么问题？</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#MVCC"><span class="space-toc-text">MVCC</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#Mysql%E7%9A%84%E9%94%81%E4%BD%A0%E4%BA%86%E8%A7%A3%E5%93%AA%E4%BA%9B"><span class="space-toc-text">Mysql的锁你了解哪些</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E6%8C%89%E9%94%81%E7%B2%92%E5%BA%A6%E5%88%86%E7%B1%BB%EF%BC%9A1-%E8%A1%8C%E6%89%80%EF%BC%9A%E9%94%81%E4%BD%8F%E4%B8%80%E8%A1%8C%EF%BC%8C%E9%94%81%E7%B2%92%E5%BA%A6%E6%9C%80%E5%B0%8F%EF%BC%8C%E5%B9%B6%E5%8F%91%E5%BA%A6%E9%AB%982-%E8%A1%A8%E9%94%81%EF%BC%9A%E9%94%81%E4%BD%8F%E4%B8%80%E5%BC%A0%E8%A1%A8%EF%BC%8C%E9%94%81%E7%B2%92%E5%BA%A6%E5%A4%A7%EF%BC%8C%E5%B9%B6%E5%8F%91%E5%BA%A6%E4%BD%8E3-%E9%97%B4%E9%9A%99%E9%94%81%EF%BC%9A%E9%94%81%E4%BD%8F%E4%B8%80%E4%B8%AA%E5%8C%BA%E9%97%B4"><span class="space-toc-text">按锁粒度分类：1. 行所：锁住一行，锁粒度最小，并发度高2. 表锁：锁住一张表，锁粒度大，并发度低3. 间隙锁：锁住一个区间</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E8%AF%B4%E8%AF%B4Mysql%E7%9A%84%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6"><span class="space-toc-text">说说Mysql的主从复制</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#SQL%E8%AF%AD%E5%8F%A5%E4%BC%98%E5%8C%96"><span class="space-toc-text">SQL语句优化</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#Source"><span class="space-toc-text">Source</span></a></li></ol>
            </div>
         
       </div>

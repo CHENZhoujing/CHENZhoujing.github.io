@@ -144,10 +144,22 @@
 </ul>
 </li>
 </ul>
+<h2 id="Java死锁如何避免？"><a href="#Java死锁如何避免？" class="headerlink" title="Java死锁如何避免？"></a>Java死锁如何避免？</h2><p>避免循环等待。<br>造成死锁的4个原因：</p>
+<ol>
+<li>一个资源只能有一个线程使用</li>
+<li>线程在阻塞等待时，不释放已占有资源</li>
+<li>线程已经获得的资源，在未使⽤完之前，不能被强⾏剥夺</li>
+<li>多个线程形成头尾相接的循环等待问题</li>
+</ol>
+<p>在开发过程中：</p>
+<ol>
+<li>要注意加锁顺序，保证每个线程按同样的顺序进⾏加锁</li>
+<li>要注意加锁时限，可以针对所设置⼀个超时时间</li>
+<li>要注意死锁检查，这是⼀种预防机制，确保在第⼀时间发现死锁并进⾏解决</li>
+</ol>
 <h2 id="锁升级过程"><a href="#锁升级过程" class="headerlink" title="锁升级过程"></a>锁升级过程</h2><ul>
 <li>偏向锁</li>
 <li>轻量级锁</li>
-<li>自旋锁</li>
 <li>重量级锁</li>
 <li>偏向锁未启动，创建出来的是普通对象， 如果有一个线程来抢占锁，该锁偏向此线程，这时升级为偏向锁。在偏向锁的基础上又来一个线程抢占锁此时升级为轻量级锁。当一个线程没有抢占到锁，并且自旋了一定时间后还没有抢到锁，就会升级成重量级锁。在偏向锁的基础上如果出现了重度竞争就会直接升级成重量级锁。</li>
 </ul>
@@ -232,7 +244,7 @@ private void doOrder() &#123;
       <div class="post-content-inner-space">
         
           <div class="space-toc-main animate__animated  animate__fadeInUp">
-            <ol class="space-toc"><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E8%BF%9B%E7%A8%8B%EF%BC%8C%E7%BA%BF%E7%A8%8B%EF%BC%8C%E5%8D%8F%E7%A8%8B"><span class="space-toc-text">进程，线程，协程</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F"><span class="space-toc-text">多线程实现方式</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E7%BA%BF%E7%A8%8B%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%EF%BC%9F"><span class="space-toc-text">线程的生命周期？</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%EF%BC%9F"><span class="space-toc-text">如何保证线程安全？</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E9%94%81%E7%9A%84%E5%88%86%E7%B1%BB"><span class="space-toc-text">锁的分类</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E9%94%81%E5%8D%87%E7%BA%A7%E8%BF%87%E7%A8%8B"><span class="space-toc-text">锁升级过程</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#CAS%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="space-toc-text">CAS是什么？</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E5%9C%A8%E5%8E%9F%E5%AD%90%E6%93%8D%E4%BD%9C%E7%B1%BB%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8-getAndAddInt"><span class="space-toc-text">在原子操作类中的应用 getAndAddInt</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#CAS%E5%AE%9E%E7%8E%B0"><span class="space-toc-text">CAS实现</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#CAS%E7%9A%84%E7%BC%BA%E7%82%B9"><span class="space-toc-text">CAS的缺点</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#ThreadLocal"><span class="space-toc-text">ThreadLocal</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#Source"><span class="space-toc-text">Source</span></a></li></ol>
+            <ol class="space-toc"><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E8%BF%9B%E7%A8%8B%EF%BC%8C%E7%BA%BF%E7%A8%8B%EF%BC%8C%E5%8D%8F%E7%A8%8B"><span class="space-toc-text">进程，线程，协程</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F"><span class="space-toc-text">多线程实现方式</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E7%BA%BF%E7%A8%8B%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%EF%BC%9F"><span class="space-toc-text">线程的生命周期？</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%EF%BC%9F"><span class="space-toc-text">如何保证线程安全？</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E9%94%81%E7%9A%84%E5%88%86%E7%B1%BB"><span class="space-toc-text">锁的分类</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#Java%E6%AD%BB%E9%94%81%E5%A6%82%E4%BD%95%E9%81%BF%E5%85%8D%EF%BC%9F"><span class="space-toc-text">Java死锁如何避免？</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E9%94%81%E5%8D%87%E7%BA%A7%E8%BF%87%E7%A8%8B"><span class="space-toc-text">锁升级过程</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#CAS%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="space-toc-text">CAS是什么？</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E5%9C%A8%E5%8E%9F%E5%AD%90%E6%93%8D%E4%BD%9C%E7%B1%BB%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8-getAndAddInt"><span class="space-toc-text">在原子操作类中的应用 getAndAddInt</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#CAS%E5%AE%9E%E7%8E%B0"><span class="space-toc-text">CAS实现</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#CAS%E7%9A%84%E7%BC%BA%E7%82%B9"><span class="space-toc-text">CAS的缺点</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#ThreadLocal"><span class="space-toc-text">ThreadLocal</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#Source"><span class="space-toc-text">Source</span></a></li></ol>
            </div>
         
       </div>
