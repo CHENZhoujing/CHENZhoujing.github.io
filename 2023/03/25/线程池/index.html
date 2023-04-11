@@ -133,13 +133,16 @@
 </ul>
 </li>
 <li>workQueue 队列<ul>
-<li>ArrayBlockingQueue：一个由数组结构组成的有界阻塞队列。</li>
-<li>LinkedBlockingQueue：一个由链表结构组成的有界阻塞队列。</li>
-<li>SynchronousQueue：一个不存储元素的阻塞队列，即直接提交给线程不保持它们。</li>
-<li>PriorityBlockingQueue：一个支持优先级排序的无界阻塞队列。</li>
-<li>DelayQueue：一个使用优先级队列实现的无界阻塞队列，只有在延迟期满时才能从中提取元素。</li>
-<li>LinkedTransferQueue：一个由链表结构组成的无界阻塞队列。与 SynchronousQueue类似，还含有非阻塞方法。</li>
-<li>LinkedBlockingDeque：一个由链表结构组成的双向阻塞队列。</li>
+<li>无界队列：<ul>
+<li>LinkedBlockingQueue，使用该队列作为阻塞队列时要尤其当心，当任务耗时较长时可能会导致大量新任务在队列中堆积最终导致OOM</li>
+<li>maximumPoolSize 的值也就无效了</li>
+</ul>
+</li>
+<li>有界队列：<ul>
+<li>常用的有两类，一类是遵循FIFO原则的队列如ArrayBlockingQueue，另一类是优先级队列如PriorityBlockingQueue</li>
+<li>当使用有限的 maximumPoolSizes 时，有界队列有助于防止资源耗尽</li>
+</ul>
+</li>
 </ul>
 </li>
 <li>handler 拒绝策略<ul>
@@ -168,6 +171,9 @@
 <li>shutdown 不接受新任务，线程池在处理完所有任务后关闭。</li>
 <li>shutdownNow 直接关闭线程池，通过 Thread#interrupt() 方法终止所有线程，不会等待之前提交的任务执行完毕。但是会返回队列中未处理的任务。</li>
 </ul>
+<h2 id="线程池参数设置"><a href="#线程池参数设置" class="headerlink" title="线程池参数设置"></a>线程池参数设置</h2><ul>
+<li>线程数 &#x3D; cpu核心数 * cpu利用率 * （1 + 等待时间和计算时间的比例）</li>
+</ul>
 <h2 id="Source"><a href="#Source" class="headerlink" title="Source"></a>Source</h2><p><a target="_blank" rel="noopener" href="https://joonwhee.blog.csdn.net/article/details/106609583">https://joonwhee.blog.csdn.net/article/details/106609583</a></p>
 
         <!-- 分类文章 -->
@@ -176,7 +182,7 @@
       <div class="post-content-inner-space">
         
           <div class="space-toc-main animate__animated  animate__fadeInUp">
-            <ol class="space-toc"><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E4%BD%BF%E7%94%A8%E7%BA%BF%E7%A8%8B%E6%B1%A0%EF%BC%9F"><span class="space-toc-text">为什么要使用线程池？</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E7%BA%BF%E7%A8%8B%E6%B1%A0%E7%9A%84%E6%A0%B8%E5%BF%83%E5%8F%82%E6%95%B0"><span class="space-toc-text">线程池的核心参数</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E7%BA%BF%E7%A8%8B%E6%B1%A0%E7%9A%84%E8%BF%90%E4%BD%9C%E6%B5%81%E7%A8%8B"><span class="space-toc-text">线程池的运作流程</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E5%A6%82%E4%BD%95%E7%BB%88%E6%AD%A2%E7%BA%BF%E7%A8%8B%E6%B1%A0%EF%BC%9F"><span class="space-toc-text">如何终止线程池？</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#Source"><span class="space-toc-text">Source</span></a></li></ol>
+            <ol class="space-toc"><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E4%BD%BF%E7%94%A8%E7%BA%BF%E7%A8%8B%E6%B1%A0%EF%BC%9F"><span class="space-toc-text">为什么要使用线程池？</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E7%BA%BF%E7%A8%8B%E6%B1%A0%E7%9A%84%E6%A0%B8%E5%BF%83%E5%8F%82%E6%95%B0"><span class="space-toc-text">线程池的核心参数</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E7%BA%BF%E7%A8%8B%E6%B1%A0%E7%9A%84%E8%BF%90%E4%BD%9C%E6%B5%81%E7%A8%8B"><span class="space-toc-text">线程池的运作流程</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E5%A6%82%E4%BD%95%E7%BB%88%E6%AD%A2%E7%BA%BF%E7%A8%8B%E6%B1%A0%EF%BC%9F"><span class="space-toc-text">如何终止线程池？</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%8F%82%E6%95%B0%E8%AE%BE%E7%BD%AE"><span class="space-toc-text">线程池参数设置</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#Source"><span class="space-toc-text">Source</span></a></li></ol>
            </div>
         
       </div>
