@@ -159,7 +159,7 @@
       </p>
 <h2 id="具体实践方案"><a href="#具体实践方案" class="headerlink" title="具体实践方案"></a>具体实践方案</h2><ul>
 <li>高性能<ul>
-<li>集群部署，负载均衡</li>
+<li>集群部署，通过负载均衡减轻单机压力</li>
 <li>分库分表和索引优化</li>
 <li>异步化</li>
 <li>限流<ul>
@@ -186,10 +186,10 @@
 <li>热点key</li>
 <li>缓存雪崩 <ul>
 <li>大量数据同时过期：均匀设置过期时间 二级缓存&#x2F;双缓存</li>
-<li>Redis 故障宕机</li>
+<li>限流，如果redis宕机，可以限流，避免同时刻大量请求打崩DB</li>
 </ul>
 </li>
-<li>缓存击穿<ul>
+<li>缓存击穿：单个key并发访问过高，过期时导致所有请求直接打到db上<ul>
 <li>某个热点数据过期：互斥锁方案，保证同一时间只有一个业务线程更新缓存 不给热点数据设置过期时间，由后台异步更新缓存</li>
 </ul>
 </li>
@@ -234,7 +234,7 @@
 <li>基于Zookeeper，Zookeeper中的数据是存在内存的，所以相对于Mysql性能上是适合实际环境的，并<br>且基于Zookeeper的顺序节点、临时节点、Watch机制能⾮常好的来实现的分布式锁</li>
 <li>基于Redis，Redis中的数据也是在内存，基于Redis的消费订阅功能、数据超时时间，lua脚本等功能，也能很好的实现的分布式锁</li>
 </ul>
-<h2 id="Source"><a href="#Source" class="headerlink" title="Source"></a>Source</h2><p><a target="_blank" rel="noopener" href="https://www.nowcoder.com/issue/tutorial?tutorialId=94&uuid=8041062876524cdfbe593e83fabc7ee1">https://www.nowcoder.com/issue/tutorial?tutorialId=94&amp;uuid=8041062876524cdfbe593e83fabc7ee1</a><br><a target="_blank" rel="noopener" href="https://juejin.cn/post/6844903950051721230">https://juejin.cn/post/6844903950051721230</a><br><a target="_blank" rel="noopener" href="https://xiaolincoding.com/redis/cluster/cache_problem.html#%E7%BC%93%E5%AD%98%E9%9B%AA%E5%B4%A9">https://xiaolincoding.com/redis/cluster/cache_problem.html#%E7%BC%93%E5%AD%98%E9%9B%AA%E5%B4%A9</a><br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/jajian/p/10926681.html">https://www.cnblogs.com/jajian/p/10926681.html</a></p>
+<h2 id="Source"><a href="#Source" class="headerlink" title="Source"></a>Source</h2><p><a target="_blank" rel="noopener" href="https://www.nowcoder.com/issue/tutorial?tutorialId=94&uuid=8041062876524cdfbe593e83fabc7ee1">https://www.nowcoder.com/issue/tutorial?tutorialId=94&amp;uuid=8041062876524cdfbe593e83fabc7ee1</a><br><a target="_blank" rel="noopener" href="https://juejin.cn/post/6844903950051721230">https://juejin.cn/post/6844903950051721230</a><br><a target="_blank" rel="noopener" href="https://xiaolincoding.com/redis/cluster/cache_problem.html#%E7%BC%93%E5%AD%98%E9%9B%AA%E5%B4%A9">https://xiaolincoding.com/redis/cluster/cache_problem.html#%E7%BC%93%E5%AD%98%E9%9B%AA%E5%B4%A9</a><br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/jajian/p/10926681.html">https://www.cnblogs.com/jajian/p/10926681.html</a><br><a target="_blank" rel="noopener" href="https://heapdump.cn/article/3298255">https://heapdump.cn/article/3298255</a></p>
 
         <!-- 分类文章 -->
         
