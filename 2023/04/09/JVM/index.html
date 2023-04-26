@@ -232,20 +232,14 @@
 </ul>
 </li>
 </ul>
-<h2 id="AOP：动态代理和字节码增强"><a href="#AOP：动态代理和字节码增强" class="headerlink" title="AOP：动态代理和字节码增强"></a>AOP：动态代理和字节码增强</h2><ul>
-<li>动态代理：动态代理是指在运行时动态生成一个代理对象，用于代替真实对象进行某些操作。</li>
-<li>字节码增强：字节码增强是指通过修改目标类的字节码，来实现横切关注点的功能。</li>
-<li>动态增强：使用动态增强技术，创建代理类，代理类有自己的唯一名称，代理类实现接口类或者继承于原始类，其实就是生成了一个新的类。<ul>
-<li>JDK动态代理是Java语言自带的一种动态代理实现方式。它通过反射机制动态地创建一个代理类，该代理类实现了指定的一组接口，并在实现接口的方法中调用委托类的相应方法。</li>
-<li>Cglib框架动态代理是一个基于ASM字节码技术的代理实现方式。它通过生成被代理类的子类来实现代理。由于Cglib是基于字节码的，所以它可以代理没有实现接口的类。</li>
+<h2 id="为什么要有Survivor区？"><a href="#为什么要有Survivor区？" class="headerlink" title="为什么要有Survivor区？"></a>为什么要有Survivor区？</h2><ul>
+<li>如果没有Survivor，Eden区每进行一次Minor GC，存活的对象就会被送到老年代。老年代很快被填满，触发Major GC。</li>
+<li>Survivor的存在意义，就是减少被送到老年代的对象，进而减少Full GC的发生，Survivor的预筛选保证，只有经历16次Minor GC还能在新生代中存活的对象，才会被送到老年代。</li>
 </ul>
-</li>
-<li>静态增强：这种情况也就是上面介绍的AspectJ技术，在运行前就对class做了增强处理，所以加载方式和普通类的加载方式没有任何区别，在运行期间可能都不知道对class文件做了增强。<ul>
-<li>通常使用AspectJ框架来实现。</li>
-<li>在编译时增强中，AspectJ会根据切面的定义，生成一些辅助类和方法，然后将它们织入到目标类的字节码中。这些辅助类和方法会与目标类的代码一起编译成一个完整的类文件，因此在运行时，目标类的字节码已经被增强了。</li>
-</ul>
-</li>
-<li>可以使用JDK动态代理来代理实现了接口的目标对象，使用Cglib框架动态代理来代理没有实现接口的目标对象，再结合字节码增强来实现更加复杂的横切关注点。</li>
+<h2 id="两个Survivor的好处"><a href="#两个Survivor的好处" class="headerlink" title="两个Survivor的好处"></a>两个Survivor的好处</h2><p>解决内存碎片化问题：</p>
+<ul>
+<li>刚新建的对象在Eden中，一旦Eden满了，触发一次Minor GC，Eden中的存活对象就会被移动到Survivor区。这样继续循环下去，极易导致内存碎片化。</li>
+<li>刚刚新建的对象在Eden中，经历一次Minor GC，Eden中的存活对象就会被移动到第一块survivor space S0，Eden被清空；等Eden区再满了，就再触发一次Minor GC，Eden和S0中的存活对象又会被复制送入第二块survivor space S1（这个过程非常重要，因为这种复制算法保证了S1中来自S0和Eden两部分的存活对象占用连续的内存空间，避免了碎片化的发生）</li>
 </ul>
 <h2 id="Jdk1-7到Jdk1-8-java虚拟机发⽣了什么变化"><a href="#Jdk1-7到Jdk1-8-java虚拟机发⽣了什么变化" class="headerlink" title="Jdk1.7到Jdk1.8 java虚拟机发⽣了什么变化?"></a>Jdk1.7到Jdk1.8 java虚拟机发⽣了什么变化?</h2><ul>
 <li>jdk1.7存在永久代，存在于虚拟机内部，jdk1.8变成元空间，元空间存在于本地内存空间。不管是永久代还是元空间，他们都是⽅法区的具体实现。</li>
@@ -260,7 +254,7 @@
       <div class="post-content-inner-space">
         
           <div class="space-toc-main animate__animated  animate__fadeInUp">
-            <ol class="space-toc"><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#JVM%E5%8C%85%E5%90%AB%E5%93%AA%E5%87%A0%E9%83%A8%E5%88%86%EF%BC%9F"><span class="space-toc-text">JVM包含哪几部分？</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E4%BB%8B%E7%BB%8D%E4%B8%80%E4%B8%8B%E7%B1%BB%E5%8A%A0%E8%BD%BD%E7%9A%84%E8%BF%87%E7%A8%8B"><span class="space-toc-text">介绍一下类加载的过程</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E7%B1%BB%E5%8A%A0%E8%BD%BD%E7%B3%BB%E7%BB%9F%EF%BC%9F"><span class="space-toc-text">什么是类加载系统？</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%B4%BE%EF%BC%9F"><span class="space-toc-text">什么是双亲委派？</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E4%BB%8B%E7%BB%8D%E4%B8%80%E4%B8%8BJava%E7%9A%84%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6"><span class="space-toc-text">介绍一下Java的垃圾回收机制</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%AE%97%E6%B3%95%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F"><span class="space-toc-text">垃圾回收算法有哪些？</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F"><span class="space-toc-text">垃圾收集器有哪些？</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#AOP%EF%BC%9A%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86%E5%92%8C%E5%AD%97%E8%8A%82%E7%A0%81%E5%A2%9E%E5%BC%BA"><span class="space-toc-text">AOP：动态代理和字节码增强</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#Jdk1-7%E5%88%B0Jdk1-8-java%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%8F%91%E2%BD%A3%E4%BA%86%E4%BB%80%E4%B9%88%E5%8F%98%E5%8C%96"><span class="space-toc-text">Jdk1.7到Jdk1.8 java虚拟机发⽣了什么变化?</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#Source"><span class="space-toc-text">Source</span></a></li></ol>
+            <ol class="space-toc"><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#JVM%E5%8C%85%E5%90%AB%E5%93%AA%E5%87%A0%E9%83%A8%E5%88%86%EF%BC%9F"><span class="space-toc-text">JVM包含哪几部分？</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E4%BB%8B%E7%BB%8D%E4%B8%80%E4%B8%8B%E7%B1%BB%E5%8A%A0%E8%BD%BD%E7%9A%84%E8%BF%87%E7%A8%8B"><span class="space-toc-text">介绍一下类加载的过程</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E7%B1%BB%E5%8A%A0%E8%BD%BD%E7%B3%BB%E7%BB%9F%EF%BC%9F"><span class="space-toc-text">什么是类加载系统？</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%B4%BE%EF%BC%9F"><span class="space-toc-text">什么是双亲委派？</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E4%BB%8B%E7%BB%8D%E4%B8%80%E4%B8%8BJava%E7%9A%84%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6"><span class="space-toc-text">介绍一下Java的垃圾回收机制</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%AE%97%E6%B3%95%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F"><span class="space-toc-text">垃圾回收算法有哪些？</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F"><span class="space-toc-text">垃圾收集器有哪些？</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E6%9C%89Survivor%E5%8C%BA%EF%BC%9F"><span class="space-toc-text">为什么要有Survivor区？</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#%E4%B8%A4%E4%B8%AASurvivor%E7%9A%84%E5%A5%BD%E5%A4%84"><span class="space-toc-text">两个Survivor的好处</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#Jdk1-7%E5%88%B0Jdk1-8-java%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%8F%91%E2%BD%A3%E4%BA%86%E4%BB%80%E4%B9%88%E5%8F%98%E5%8C%96"><span class="space-toc-text">Jdk1.7到Jdk1.8 java虚拟机发⽣了什么变化?</span></a></li><li class="space-toc-item space-toc-level-2"><a class="space-toc-link" href="#Source"><span class="space-toc-text">Source</span></a></li></ol>
            </div>
         
       </div>
